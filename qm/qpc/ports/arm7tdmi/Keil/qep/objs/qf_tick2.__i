@@ -1,0 +1,1 @@
+-c --cpu ARM7TDMI -D__EVAL -g -O0 -I..\..\..\include -I..\keil -I..\inc -I "C:\Keil\ARM\INC" -I "C:\Keil\ARM\INC\ARM" -o ".\objs\qf_tick2.o" --omf_browse ".\objs\qf_tick2.crf" --depend ".\objs\qf_tick2.d" "..\..\..\qf\source\qf_tick2.c"

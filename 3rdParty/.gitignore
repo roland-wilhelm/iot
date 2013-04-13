@@ -1,0 +1,15 @@
+*.*
+!*.exe
+!.gitignore
+!*.pdf
+!*.txt
+!*.h
+!*.c
+!*.cpp
+!*.sh
+!*.bat
+!*.sln
+!*.bmp
+!*.ico
+!*.vcproj
+!*.vcxproj

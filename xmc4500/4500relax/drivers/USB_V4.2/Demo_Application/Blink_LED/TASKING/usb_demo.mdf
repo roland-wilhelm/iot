@@ -1,0 +1,22 @@
+# space <name> <id> <mau size>
+space	spe:tc:linear	1	8
+space	spe:tc:abs24	2	8
+space	spe:tc:abs18	3	8
+space	spe:tc:csa	4	8
+# chip <name> <id> <mau size> <size> <type>
+chip	spe:ldram	3	8	28672	ram
+chip	ext_c	0	8	524288	rom
+chip	ext_d	1	8	458752	ram
+chip	vecttable	2	8	9216	rom
+# map <space id> <start in space> <size in space> <chip id> <start on chip>
+map	1	2684354560	524288	0	0
+map	1	2684878848	458752	1	0
+map	1	2685337600	9216	2	0
+map	1	3489660928	28672	3	0
+map	2	2684354560	524288	0	0
+map	2	2684878848	458752	1	0
+map	2	2685337600	9216	2	0
+map	2	3489660928	28672	3	0
+map	3	2684354560	16384	0	0
+map	3	3489660928	16384	3	0
+map	4	3489660928	28672	3	0

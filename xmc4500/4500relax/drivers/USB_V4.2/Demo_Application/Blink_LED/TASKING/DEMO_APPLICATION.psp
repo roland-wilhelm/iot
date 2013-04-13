@@ -1,0 +1,15 @@
+;Codewright Project Space File (do not remove or modify this line)
+[State]
+StateWindowFrame=0,0,768,488,0x43097fca
+_StateHistory=PROJECTS,'.\USB_DEMO.pjt'
+_RestoreProject='.\USB_DEMO.pjt'
+ProjSpaceFlags=0x00000000, 1
+
+[Project]
+ConfigSetUserWorkspace=''
+ConfigSetUserWorkspaceParser=''
+ConfigSetUserWorkspaceTimeStamp=0
+ConfigSetUserWorkspaceAutoSync=0
+
+[Project.".\USB_DEMO.pjt"]
+

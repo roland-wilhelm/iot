@@ -1,0 +1,15 @@
+*.crf
+*.o
+*.d
+*.lst
+*.bak
+*.dep
+*.map
+*.uvgui
+*.uvopt
+
+Flash/
+RAM/
+obj/
+lst/
+searchplugins/

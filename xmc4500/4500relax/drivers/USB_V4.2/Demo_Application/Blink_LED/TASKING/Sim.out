@@ -1,0 +1,69 @@
+
+ATTENTION: TSIM is an ARCHITECTURAL MODEL.
+CYCLE COUNTS are APPROXIMATE.
+
+********************************************** 
+banks:1   lines:16   ways:2   bits:256 speed:0 
+********************************************** 
+********************************************** 
+banks:2   lines:128   ways:2   bits:128 speed:0
+
+
+No interrupt config file specified
+
+Reading internal peripheral registers
+
+No peripheral config file specified
+
+RESET PC = a0000000
+InitMemorySpace called
+
+RESET PC = a0000000
+Simulation complete
+
+**************** Simulation statistics ****************
+
+Total number of instructions executed = 29024000
+Total number of cycles run            = 0
+Total number of seconds for execution = 3e+002 seconds
+
+total number of interrupts fired=0
+No Dcache accesses
+
+No Ccache accesses
+Instruction histogram:		  %     (Num of instructions)
+		MAC:		 0%       (0)
+		JMPS:		 0%       (0)
+		LOADS:		 0%       (0)
+		STORES:		 0%       (0)
+		ARITHMETIC:	-47%       (29024000)
+		SYS:	     0%       (0)
+		MISC:	     0%       (0)
+
+Data Register usage for 32 bit instructions: 
+
+DR[00] = 0	DR[01] = 0	DR[02] = 0	DR[03] = 0
+DR[04] = 0	DR[05] = 0	DR[06] = 0	DR[07] = 0
+DR[08] = 0	DR[09] = 0	DR[10] = 0	DR[11] = 0
+DR[12] = 0	DR[13] = 0	DR[14] = 0	DR[15] = 0
+
+Address Register usage for 32 bit instructions: 
+
+AR[00] = 0	AR[01] = 0	AR[02] = 0	AR[03] = 0
+AR[04] = 0	AR[05] = 0	AR[06] = 0	AR[07] = 0
+AR[08] = 0	AR[09] = 0	AR[10] = 0	AR[11] = 0
+AR[12] = 0	AR[13] = 0	AR[14] = 0	AR[15] = 0
+
+Data Register usage for 16 bit instructions:
+
+DR[00] = 0	DR[01] = 0	DR[02] = 0	DR[03] = 0
+DR[04] = 0	DR[05] = 0	DR[06] = 0	DR[07] = 0
+DR[08] = 0	DR[09] = 0	DR[10] = 0	DR[11] = 0
+DR[12] = 0	DR[13] = 0	DR[14] = 0	DR[15] = 29024000
+
+Address Register usage for 16 bit instructions:
+
+AR[00] = 0	AR[01] = 0	AR[02] = 0	AR[03] = 0
+AR[04] = 0	AR[05] = 0	AR[06] = 0	AR[07] = 0
+AR[08] = 0	AR[09] = 0	AR[10] = 0	AR[11] = 29024000
+AR[12] = 0	AR[13] = 0	AR[14] = 0	AR[15] = 0

@@ -1,0 +1,4 @@
+-G "c:\tc1130_lld_v5.00\usb_v4.2\demo_application\blink_led\tasking"
+-err "usb_demo.err"
+-r
+-f "usb_demo.mak"

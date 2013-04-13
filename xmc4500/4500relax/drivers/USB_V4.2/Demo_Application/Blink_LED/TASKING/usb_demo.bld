@@ -1,0 +1,17 @@
+* TASKING build target information file
+*
+* Project:	usb_demo.pjt
+* Toolchain:	TASKING C/C++, CrossView Pro SIM for TriCore v2.2 r3 patch 1
+* EDE Version:	99.9r9 (Build 142)
+*
+
+asc0.o|1141106743|123499074
+cstart.o|1141106743|3035366056
+gptu.o|1141106743|763536447
+main.o|1141106743|390096072
+scu.o|1141106743|364862675
+sys_iil.o|1141106743|3970408598
+usb_demo.elf|1141106829|472288412
+usb_idl.o|1141106743|858618711
+usb_iil_rx.o|1141106743|3902024421
+usb_iil_setup.o|1141106743|2213159163

@@ -1,0 +1,2 @@
+Main-Class: de.thesycon.usbiodemo.usbioapp.UsbIoApp
+Class-Path: UsbIoJava.jar

@@ -1,0 +1,899 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// German (Germany) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DEU)
+#ifdef _WIN32
+LANGUAGE LANG_GERMAN, SUBLANG_GERMAN
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#endif\r\n"
+    "#include ""res\\USBIOAPP.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""         // Standard components\r\n"
+    "#endif\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DIALOGPAGE_DEVICE DIALOG DISCARDABLE  0, 0, 305, 177
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    PUSHBUTTON      "Scan for USBIO devices",IDC_BUTTON_SCAN,13,20,125,14
+    DEFPUSHBUTTON   "Open",IDC_BUTTON_OPEN,14,86,49,14
+    PUSHBUTTON      "Close",IDC_BUTTON_CLOSE,89,86,49,14
+    GROUPBOX        "Available Devices",IDC_STATIC,7,7,140,117
+    GROUPBOX        "Device Parameters",IDC_STATIC,155,7,140,116
+    CONTROL         "Unconfigure on close",IDC_UNCONFIGURE_ON_CLOSE,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,166,24,79,10
+    CONTROL         "Reset on close",IDC_RESET_ON_CLOSE,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,166,41,61,10
+    LTEXT           "Request Timeout:",IDC_STATIC,166,81,80,8
+    EDITTEXT        IDC_DEVICE_REQUEST_TIMEOUT,251,79,35,14,ES_RIGHT | 
+                    ES_AUTOHSCROLL
+    PUSHBUTTON      "Get",IDC_GET_DEVICE_PARAMETER,166,104,50,14
+    PUSHBUTTON      "Set",IDC_SET_DEVICE_PARAMETERS,236,104,50,14
+    GROUPBOX        "Current Version",IDC_STATIC_VERSION,7,127,288,27
+    LTEXT           "ver",IDC_VERSION_INFO,15,139,273,8
+    CONTROL         "Enable Remote Wakeup",IDC_ENABLE_WAKEUP,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,166,59,98,10
+    RTEXT           "www.thesycon.de",IDC_STATIC_DEV_HL,233,161,62,8
+    LISTBOX         IDC_LIST_DEVICES,14,41,125,38,LBS_SORT | 
+                    LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Info",IDC_DEVICE_INFO,7,161,229,8
+    PUSHBUTTON      "Acquire",IDC_BUTTON_ACQUIRE,14,104,49,14
+    PUSHBUTTON      "Release",IDC_BUTTON_RELEASE,89,104,49,14
+END
+
+IDD_DIALOGPAGE_DESC DIALOG DISCARDABLE  0, 0, 304, 170
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "Get Device Descriptor",IDC_BUTTON_DEVICE_DESC,82,18,78,
+                    15
+    EDITTEXT        IDC_EDIT_CONFIG_DESC,37,58,30,14,ES_RIGHT | 
+                    ES_AUTOHSCROLL
+    PUSHBUTTON      "Get Config Descriptor",IDC_BUTTON_CONFIG_DESC,82,57,78,
+                    15
+    EDITTEXT        IDC_EDIT_STRING_DESC,37,97,30,14,ES_RIGHT | 
+                    ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_STRING_DESC_LID,124,97,30,14,ES_RIGHT | 
+                    ES_AUTOHSCROLL
+    PUSHBUTTON      "Get String Descriptor",IDC_BUTTON_STRING_DESC,195,96,96,
+                    15
+    GROUPBOX        "Device Descriptor",IDC_STATIC,7,7,290,32
+    LTEXT           "Index:",IDC_STATIC,14,60,20,8
+    LTEXT           "Index:",IDC_STATIC,14,100,20,8
+    LTEXT           "Language ID:",IDC_STATIC,77,100,45,8
+    PUSHBUTTON      "Get Device Qualifier Descriptor",
+                    IDC_BUTTON_DEVICE_QUALIFIER_DESC,169,19,121,14
+    PUSHBUTTON      "Get Other Speed Config Descriptor",
+                    IDC_BUTTON_OTHER_SPEED_CONFIG_DESC,169,58,121,14
+    EDITTEXT        IDC_EDIT_ANY_DESC_TYPE,37,136,30,14,ES_RIGHT | 
+                    ES_AUTOHSCROLL
+    LTEXT           "Type:",IDC_STATIC,14,139,19,8
+    LTEXT           "Index:",IDC_STATIC,75,139,20,8
+    EDITTEXT        IDC_EDIT_ANY_DESC_INDEX,97,136,30,14,ES_RIGHT | 
+                    ES_AUTOHSCROLL
+    RTEXT           "Length:",IDC_STATIC,130,139,25,8
+    EDITTEXT        IDC_EDIT_ANY_DESC_LENGTH,156,136,30,14,ES_RIGHT | 
+                    ES_AUTOHSCROLL
+    PUSHBUTTON      "Get Descriptor",IDC_BUTTON_ANY_DESC,195,136,96,14
+    GROUPBOX        "Configuration Descriptor",IDC_STATIC,7,46,290,32
+    GROUPBOX        "String Descriptor",IDC_STATIC,7,85,290,32
+    GROUPBOX        "Any Descriptor",IDC_STATIC,7,124,290,32
+END
+
+IDD_OUTPUT_WINDOW DIALOG DISCARDABLE  0, 0, 312, 297
+STYLE WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_CAPTION | WS_SYSMENU | 
+    WS_THICKFRAME
+CAPTION "USBIOAPP Output Window"
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_EDIT_OUTPUTWIN,7,7,298,283,ES_MULTILINE | 
+                    ES_AUTOVSCROLL | ES_AUTOHSCROLL | WS_VSCROLL | 
+                    WS_HSCROLL
+END
+
+IDD_DIALOGPAGE_CONFIG DIALOG DISCARDABLE  0, 0, 328, 171
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_EDIT_CONFIG_INDEX,78,23,29,14,ES_RIGHT | 
+                    ES_AUTOHSCROLL
+    PUSHBUTTON      "Set Configuration",IDC_BUTTON_SET_CONFIGURATION,116,23,
+                    79,14
+    CONTROL         "",IDC_CHECK_IF_0,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
+                    76,68,8,8
+    EDITTEXT        IDC_EDIT_IFNB_0,66,81,29,14,ES_RIGHT | ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_ASNB_0,66,102,29,14,ES_RIGHT | ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_MAXTR_0,66,124,29,14,ES_RIGHT | ES_AUTOHSCROLL
+    CONTROL         "",IDC_CHECK_IF_1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
+                    113,68,8,8
+    EDITTEXT        IDC_EDIT_IFNB_1,103,81,29,14,ES_RIGHT | ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_ASNB_1,103,102,29,14,ES_RIGHT | ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_MAXTR_1,103,124,29,14,ES_RIGHT | ES_AUTOHSCROLL
+    CONTROL         "",IDC_CHECK_IF_2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
+                    150,68,8,8
+    EDITTEXT        IDC_EDIT_IFNB_2,140,81,29,14,ES_RIGHT | ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_ASNB_2,140,102,29,14,ES_RIGHT | ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_MAXTR_2,140,124,29,14,ES_RIGHT | ES_AUTOHSCROLL
+    CONTROL         "",IDC_CHECK_IF_3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
+                    187,68,8,8
+    EDITTEXT        IDC_EDIT_IFNB_3,177,81,29,14,ES_RIGHT | ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_ASNB_3,177,102,29,14,ES_RIGHT | ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_MAXTR_3,177,124,29,14,ES_RIGHT | ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "Get Configuration",IDC_BUTTON_GET_CONFIGURATION,234,23,
+                    79,14
+    PUSHBUTTON      "Unconfigure Device",IDC_BUTTON_UNCONFIGURE_DEVICE,234,
+                    77,79,14
+    LTEXT           "Interface:",IDC_STATIC,15,86,38,8
+    LTEXT           "Alt. Setting:",IDC_STATIC,15,105,39,8
+    LTEXT           "Max Transfer:",IDC_STATIC,15,126,44,8
+    GROUPBOX        "Interface List",IDC_STATIC,7,57,210,92
+    GROUPBOX        "Set Configuration",IDC_STATIC,7,7,210,41
+    LTEXT           "Conf. Desc. Index:",IDC_STATIC,13,25,60,8
+    GROUPBOX        "Get Configuration",IDC_STATIC,227,7,94,41
+    GROUPBOX        "Unconfigure Device",IDC_STATIC,227,57,94,41
+    GROUPBOX        "Bandwidth Information",IDC_STATIC,227,108,94,41
+    PUSHBUTTON      "Get Bandwidth Info",IDC_BUTTON_BANDWIDTH,234,124,79,14
+END
+
+IDD_PIPE_DIALOG DIALOG DISCARDABLE  0, 0, 285, 282
+STYLE DS_MODALFRAME | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "Close",IDOK,238,264,42,13
+    CONTROL         "Tab1",IDC_TAB_PIPE,"SysTabControl32",0x0,5,7,275,183
+    LTEXT           "Mean data rate",IDC_STATIC,12,205,67,8
+    EDITTEXT        IDC_EDIT_STATS_MEAN_RATE,12,214,111,12,ES_RIGHT | 
+                    ES_AUTOHSCROLL | ES_READONLY | NOT WS_TABSTOP
+    LTEXT           "bytes/s",IDC_STATIC,125,216,30,8
+    LTEXT           "Total number of bytes transferred",IDC_STATIC,12,231,
+                    111,8
+    EDITTEXT        IDC_EDIT_STATS_BYTES_TRANSFERRED,12,240,111,12,ES_RIGHT | 
+                    ES_AUTOHSCROLL | ES_READONLY | NOT WS_TABSTOP
+    LTEXT           "Requests succeeded",IDC_STATIC,178,205,74,8
+    EDITTEXT        IDC_EDIT_STATS_REQ_SUCCEEDED,178,214,95,12,ES_RIGHT | 
+                    ES_AUTOHSCROLL | ES_READONLY | NOT WS_TABSTOP
+    LTEXT           "Requests failed",IDC_STATIC,178,231,74,8
+    EDITTEXT        IDC_EDIT_STATS_REQ_FAILED,178,240,95,12,ES_RIGHT | 
+                    ES_AUTOHSCROLL | ES_READONLY | NOT WS_TABSTOP
+    GROUPBOX        "Pipe Statistics",IDC_STATIC,5,193,275,66
+    PUSHBUTTON      "Reset Statistics",IDC_BUTTON_RESET_PIPE_STATISTICS,12,
+                    264,64,13
+END
+
+IDD_DIALOGPAGE_INTERFACE DIALOG DISCARDABLE  0, 0, 310, 160
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Set Interface",IDC_STATIC,7,40,111,80
+    LTEXT           "Interface:",IDC_STATIC,17,19,38,8
+    LTEXT           "Alt. Setting:",IDC_STATIC,15,55,39,8
+    LTEXT           "Max Transfer:",IDC_STATIC,14,75,44,8
+    EDITTEXT        IDC_EDIT_IFNB,68,16,30,14,ES_RIGHT | ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_ASNB,68,52,30,14,ES_RIGHT | ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_MAXTR,68,72,30,14,ES_RIGHT | ES_AUTOHSCROLL
+    PUSHBUTTON      "Set Interface",IDC_BUTTON_SET_INTERFACE,32,96,66,14
+    GROUPBOX        "Get Interface",IDC_STATIC,132,40,114,80
+    DEFPUSHBUTTON   "Get Interface",IDC_BUTTON_GET_INTERFACE,157,96,66,14
+END
+
+IDD_DIALOGPAGE_DEVREQ DIALOG DISCARDABLE  0, 0, 308, 169
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    COMBOBOX        IDC_COMBO_DIRECTION,52,17,68,39,CBS_DROPDOWN | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Direction:",IDC_STATIC,13,19,31,8
+    LTEXT           "Type:",IDC_STATIC,13,45,19,8
+    LTEXT           "Recipient:",IDC_STATIC,14,70,33,8
+    COMBOBOX        IDC_COMBO_TYPE,52,43,68,51,CBS_DROPDOWN | WS_VSCROLL | 
+                    WS_TABSTOP
+    COMBOBOX        IDC_COMBO_RECIPIENT,52,68,68,53,CBS_DROPDOWN | 
+                    WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_EDIT_REQUEST,178,16,30,14,ES_RIGHT | ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_VALUE,178,42,30,14,ES_RIGHT | ES_AUTOHSCROLL
+    LTEXT           "bRequest:",IDC_STATIC,140,19,38,8
+    EDITTEXT        IDC_EDIT_INDEX,178,67,30,14,ES_RIGHT | ES_AUTOHSCROLL
+    LTEXT           "Max bytes to receive:",IDC_STATIC,14,133,69,8
+    EDITTEXT        IDC_EDIT_BUFFER,62,105,227,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_BUFFER_LENGTH,84,131,36,14,ES_RIGHT | 
+                    ES_AUTOHSCROLL
+    LTEXT           "Bytes to send:",IDC_STATIC,14,108,47,8
+    LTEXT           "wIndex:",IDC_STATIC,140,70,32,8
+    LTEXT           "wValue:",IDC_STATIC,140,45,32,8
+    CONTROL         "Short Transfer OK",IDC_CHECK_SHORT_OK,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,134,134,73,10
+    DEFPUSHBUTTON   "Send Request",IDC_BUTTON_SEND_REQUEST,231,16,58,14
+END
+
+IDD_DIALOGPAGE_OTHER DIALOG DISCARDABLE  0, 0, 304, 169
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "Get Current Frame Number",IDC_BUTTON_GET_CURRENT_FNB,19,
+                    21,104,14
+    PUSHBUTTON      "Reset Device",IDC_BUTTON_RESET_DEVICE,138,21,64,14
+    PUSHBUTTON      "Cycle Port",IDC_BUTTON_CYCLE_PORT,217,21,64,14
+    PUSHBUTTON      "Get Status",IDC_BUTTON_GET_STATUS,19,56,58,14
+    COMBOBOX        IDC_COMBO_RECIPIENT3,137,58,68,53,CBS_DROPDOWN | 
+                    WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_EDIT_INDEX3,235,56,30,14,ES_RIGHT | ES_AUTOHSCROLL
+    PUSHBUTTON      "Set Power State",IDC_BUTTON_SET_POWER,19,102,58,14
+    COMBOBOX        IDC_COMBO_POWER,137,104,68,53,CBS_DROPDOWN | WS_VSCROLL | 
+                    WS_TABSTOP
+    PUSHBUTTON      "Get Power State",IDC_BUTTON_GET_POWER,220,102,58,14
+    PUSHBUTTON      "Test1",IDC_BUTTON_TEST1,19,140,50,14,NOT WS_VISIBLE | 
+                    WS_DISABLED
+    PUSHBUTTON      "Test2",IDC_BUTTON_TEST2,79,140,50,14,NOT WS_VISIBLE | 
+                    WS_DISABLED
+    LTEXT           "Recipient:",IDC_STATIC,89,60,33,8
+    LTEXT           "Index:",IDC_STATIC,212,60,21,8
+    GROUPBOX        "Get Status",IDC_STATIC,7,45,275,34
+    GROUPBOX        "Device Power State",IDC_STATIC,7,90,275,34
+    LTEXT           "Power State:",IDC_STATIC,89,107,48,8
+END
+
+IDD_DIALOGPAGE_PIPES DIALOG DISCARDABLE  0, 0, 308, 163
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "Get Configuration Info",IDC_BUTTON_GET_PIPE_INFO,14,15,
+                    104,14
+    LTEXT           "Active Endpoints:",IDC_STATIC,15,54,56,8
+    GROUPBOX        "Pipes",IDC_STATIC,7,40,242,102
+    LTEXT           "Device is not configured",IDC_STATIC_DEV_NOT_CONFIGURED,
+                    161,18,78,8
+    LISTBOX         IDC_LIST_ENDPOINTS,15,65,74,68,LBS_NOINTEGRALHEIGHT | 
+                    WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "Read from Pipe and\n\rPrint to Output Window",
+                    IDC_BUTTON_OPEN_PIPE_TOWIN,104,65,95,21,BS_MULTILINE
+    PUSHBUTTON      "Read from Pipe and\n\rWrite to File",
+                    IDC_BUTTON_OPEN_PIPE_TOFILE,104,89,95,21,BS_MULTILINE
+    PUSHBUTTON      "Read from File and\n\rWrite to Pipe",
+                    IDC_BUTTON_OPEN_PIPE_FROMFILE,104,113,95,21,BS_MULTILINE
+    LTEXT           "Open Pipe:",IDC_STATIC,104,54,36,8
+END
+
+IDD_PDIALOGPAGE_BUFFER DIALOG DISCARDABLE  0, 0, 266, 147
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_EDIT_BUF_SIZE,131,36,40,14,ES_RIGHT | ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_BUF_COUNT,131,60,40,14,ES_RIGHT | 
+                    ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_MAX_ERRCOUNT,131,84,40,14,ES_RIGHT | 
+                    ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_ISO_PACKET_COUNT,131,108,40,14,ES_RIGHT | 
+                    ES_AUTOHSCROLL
+    LTEXT           "Size of Buffer:",IDC_STATIC,15,41,45,8
+    LTEXT           "Number of Buffers:",IDC_STATIC,15,65,60,8
+    LTEXT           "Max Error Count:",IDC_STATIC,15,89,54,8
+    LTEXT           "ISO pipe only:\n\rNumber of Iso Packets per Buffer:",
+                    IDC_NB_ISO,15,106,112,20
+    LTEXT           "bytes",IDC_STATIC,173,39,18,8
+    PUSHBUTTON      "Set Defaults",IDC_BUTTON_BUFFER_SET_DEFAULTS,123,11,56,
+                    14
+END
+
+IDD_PDIALOGPAGE_READTOWIN DIALOG DISCARDABLE  0, 0, 268, 146
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    CONTROL         "Print to Output Window",IDC_CHECK_PRINT_OUT,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,31,61,89,10
+    DEFPUSHBUTTON   "Start Reading",IDC_BUTTON_START_READINGTOWIN,30,20,75,
+                    14
+    PUSHBUTTON      "Stop Reading",IDC_BUTTON_STOP_READINGTOWIN,129,20,75,14
+END
+
+IDD_PDIALOGPAGE_PIPEPARAMS DIALOG DISCARDABLE  0, 0, 271, 148
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "Abort Pipe",IDC_BUTTON_ABORT_PIPE,35,25,76,14
+    PUSHBUTTON      "Reset Pipe",IDC_BUTTON_RESET_PIPE,120,25,76,14
+    GROUPBOX        "Pipe Parameters",IDC_STATIC,22,52,192,76
+    CONTROL         "Allow Short Transfer",IDC_CHECK_SHORT_OK,"Button",
+                    BS_AUTOCHECKBOX | BS_LEFTTEXT | WS_TABSTOP,35,71,79,10
+    PUSHBUTTON      "Get Pipe Parameters",IDC_BUTTON_GET_PIPE_PARAMS,35,100,
+                    76,14
+    PUSHBUTTON      "Set Pipe Parameters",IDC_BUTTON_SET_PIPE_PARAMS,120,100,
+                    76,14
+END
+
+IDD_PDIALOGPAGE_READTOFILE DIALOG DISCARDABLE  0, 0, 267, 145
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_EDIT_DST_FILE,15,27,197,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Browse",IDC_BUTTON_DST_FILE_BROWSE,219,27,34,14
+    DEFPUSHBUTTON   "Start Reading",IDC_BUTTON_START_READINGTOFILE,33,65,75,
+                    14
+    PUSHBUTTON      "Stop Reading",IDC_BUTTON_STOP_READINGTOFILE,127,65,75,
+                    14
+    GROUPBOX        "Destination File",IDC_STATIC,7,13,253,40
+END
+
+IDD_PDIALOGPAGE_WRITEFROMFILE DIALOG DISCARDABLE  0, 0, 266, 144
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_EDIT_SRC_FILE,15,21,197,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Browse",IDC_BUTTON_SRC_FILE_BROWSE,218,21,34,14
+    DEFPUSHBUTTON   "Start Writing",IDC_BUTTON_START_WRITINGFROMFILE,15,56,
+                    75,14
+    PUSHBUTTON      "Stop Writing",IDC_BUTTON_STOP_WRITINGFROMFILE,96,56,75,
+                    14
+    CONTROL         "Rewind at end of file",IDC_REWIND,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,16,82,81,10
+    PUSHBUTTON      "Send Zero Packet",IDC_BUTTON_SEND_ZERO_PACKET,177,56,75,
+                    14
+    EDITTEXT        IDC_EDIT_SAMPLE_RATE,61,117,44,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_SAMPLE_SIZE,197,117,33,14,ES_AUTOHSCROLL
+    GROUPBOX        "Source File",IDC_STATIC,7,7,253,40
+    LTEXT           "Sample Rate:",IDC_STATIC,14,120,46,8
+    LTEXT           "Sample Size:",IDC_STATIC,153,120,41,8
+    GROUPBOX        "Isochronous Audio Transfers",IDC_STATIC,7,105,252,32
+    LTEXT           "samples/s",IDC_STATIC,107,120,46,8
+    LTEXT           "bytes",IDC_STATIC,233,120,21,8
+END
+
+IDD_DIALOGPAGE_FEATURE DIALOG DISCARDABLE  0, 0, 305, 165
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Recipient:",IDC_STATIC,26,26,31,8
+    LTEXT           "Feature Selector:",IDC_STATIC,26,51,52,8
+    LTEXT           "Index:",IDC_STATIC,26,76,19,8
+    COMBOBOX        IDC_COMBO_RECIPIENT4,100,25,68,53,CBS_DROPDOWN | 
+                    WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_EDIT_FEATURE_SELECTOR,100,48,30,14,ES_RIGHT | 
+                    ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_INDEX4,100,73,30,14,ES_RIGHT | ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "Set Feature",IDC_SET_FEATURE,25,107,89,14
+    PUSHBUTTON      "Clear Feature",IDC_CLEAR_FEATURE,136,107,89,14
+END
+
+IDD_DIALOGPAGE_PIPEREQ DIALOG DISCARDABLE  0, 0, 264, 143
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Buffer Length:",IDC_STATIC,7,114,46,8
+    EDITTEXT        IDC_PIPE_EDIT_BUFFER,7,79,250,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_PIPE_EDIT_BUFFER_LENGTH,64,110,36,14,ES_RIGHT | 
+                    ES_AUTOHSCROLL
+    LTEXT           "Output Buffer:",IDC_STATIC,7,67,58,8
+    DEFPUSHBUTTON   "Send Request",IDC_BUTTON_PIPE_SEND_REQUEST,199,110,58,
+                    14
+    COMBOBOX        IDC_PIPE_COMBO_DIRECTION,43,16,68,39,CBS_DROPDOWN | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Direction:",IDC_STATIC,7,19,31,8
+    EDITTEXT        IDC_PIPE_SETUP,7,47,250,14,ES_AUTOHSCROLL
+    LTEXT           "Setup (8 Bytes):",IDC_STATIC,7,36,65,8
+    CONTROL         "Short Transfer OK",IDC_SHORT_TRANSFER_OK,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,136,18,69,10
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_DIALOGPAGE_DEVICE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 298
+        VERTGUIDE, 295
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 174
+    END
+
+    IDD_DIALOGPAGE_DESC, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 297
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 163
+    END
+
+    IDD_OUTPUT_WINDOW, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 305
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 290
+    END
+
+    IDD_DIALOGPAGE_CONFIG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 321
+        VERTGUIDE, 49
+        VERTGUIDE, 100
+        VERTGUIDE, 125
+        VERTGUIDE, 135
+        VERTGUIDE, 160
+        VERTGUIDE, 170
+        VERTGUIDE, 195
+        VERTGUIDE, 205
+        VERTGUIDE, 234
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 164
+        HORZGUIDE, 67
+        HORZGUIDE, 84
+        HORZGUIDE, 105
+        HORZGUIDE, 124
+    END
+
+    IDD_PIPE_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 5
+        RIGHTMARGIN, 280
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 277
+    END
+
+    IDD_DIALOGPAGE_INTERFACE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 303
+        VERTGUIDE, 80
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 153
+        HORZGUIDE, 23
+        HORZGUIDE, 40
+        HORZGUIDE, 59
+        HORZGUIDE, 79
+        HORZGUIDE, 103
+        HORZGUIDE, 120
+    END
+
+    IDD_DIALOGPAGE_DEVREQ, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 301
+        VERTGUIDE, 52
+        VERTGUIDE, 120
+        VERTGUIDE, 140
+        VERTGUIDE, 178
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 162
+        HORZGUIDE, 23
+        HORZGUIDE, 49
+        HORZGUIDE, 74
+    END
+
+    IDD_DIALOGPAGE_OTHER, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 297
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 162
+    END
+
+    IDD_DIALOGPAGE_PIPES, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 301
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 156
+    END
+
+    IDD_PDIALOGPAGE_BUFFER, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 259
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 140
+    END
+
+    IDD_PDIALOGPAGE_READTOWIN, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 261
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 139
+    END
+
+    IDD_PDIALOGPAGE_PIPEPARAMS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 264
+        TOPMARGIN, 6
+        BOTTOMMARGIN, 141
+    END
+
+    IDD_PDIALOGPAGE_READTOFILE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 260
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 138
+    END
+
+    IDD_PDIALOGPAGE_WRITEFROMFILE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 259
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 137
+    END
+
+    IDD_DIALOGPAGE_FEATURE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 298
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 158
+    END
+
+    IDD_DIALOGPAGE_PIPEREQ, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 257
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 136
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // German (Germany) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOG DISCARDABLE  0, 0, 207, 103
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About USBIOAPP"
+FONT 8, "MS Sans Serif"
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,21,20
+    CTEXT           "USBIO Demo Application",IDC_STATIC,46,16,134,8,
+                    SS_NOPREFIX
+    CTEXT           "copyright",IDC_STATIC_ABOUT_COPYRIGHT,45,45,155,8,
+                    SS_NOPREFIX
+    DEFPUSHBUTTON   "OK",IDOK,89,82,32,14,WS_GROUP
+    CTEXT           "version",IDC_STATIC_ABOUT_VER,45,30,135,8,SS_NOPREFIX
+    CTEXT           "www.thesycon.de",IDC_STATIC_ABOUT_HL,57,61,94,8
+END
+
+IDD_USBIOAPP_DIALOG DIALOGEX 0, 0, 351, 238
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "USBIO Demo Application"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "Exit",IDOK,294,213,50,14
+    CONTROL         "Tab1",IDC_TAB_MAIN,"SysTabControl32",0x0,7,7,337,193
+    PUSHBUTTON      "Show",IDC_BUTTON_OUTPUT_WINDOW,14,214,34,13
+    PUSHBUTTON      "Clear",IDC_BUTTON_CLEAR_OUTPUT_WINDOW,96,214,34,13
+    PUSHBUTTON      "Dock",IDC_BUTTON_DOCK_OUTPUT_WINDOW,55,214,34,13
+    GROUPBOX        "Output Window",IDC_STATIC,7,203,130,28
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 200
+        VERTGUIDE, 46
+        VERTGUIDE, 180
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 96
+    END
+
+    IDD_USBIOAPP_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 344
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 231
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON    DISCARDABLE     "res\\Th_USB.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_ABOUTBOX            "&About USBIOAPP..."
+    IDS_DIALOGPAGE_DEVICE   "Device"
+    IDS_DIALOGPAGE_DESC     "Descriptors"
+    IDS_DIALOGPAGE_CONFIG   "Configuration"
+    IDS_STRING_INVALID_NUM  "Please enter a valid unsigned integer,\nuse the prefix 0x for hex."
+    IDS_DIALOGPAGE_INTERFACE "Interface"
+    IDS_DIALOGPAGE_DEVREQ   "Class or Vendor Request"
+    IDS_DIALOGPAGE_OTHER    "Other"
+    IDS_DIALOGPAGE_PIPES    "Pipes"
+    IDS_PDIALOGPAGE_BUFFER  "Buffers"
+    IDS_PDIALOGPAGE_READTOWIN "Read from Pipe to Output Window"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_PDIALOGPAGE_PIPE_PARAMS "Pipe"
+    IDS_PDIALOGPAGE_READTOFILE "Read from Pipe to File"
+    IDS_STRING_INVALID_BUFFER 
+                            "Please enter a valid sequence of bytes,\nuse the prefix 0x for hex, space or ',' as separator"
+    IDS_DIALOGPAGE_FEATURE  "Feature"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_PDIALOGPAGE_WRITEFROMFILE "Write from File to Pipe"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_PDIALOGPAGE_CONTROL "Control"
+    IDS_BUTTON_OPEN         "Open an USBIO device. Use the Scan button to list available devices."
+    IDS_BUTTON_SCAN         "Scan for available USBIO devices; dump to output window"
+    IDS_BUTTON_CLOSE        "Close the USBIO device"
+    IDS_GET_DEVICE_PARAMETER "Query current device parameters"
+    IDS_SET_DEVICE_PARAMETER "Set new device parameters"
+    IDS_BUTTON_ACQUIRE      "Aquire the device for exclusive usage."
+    IDS_UNCONFIGURE_ON_CLOSE 
+                            "Unconfigure the device when the device is closed"
+    IDS_RESET_ON_CLOSE      "Issue an USB reset when the device is closed"
+    IDS_ENABLE_WAKEUP       "Enable the USB remote wakeup feature if the device supports it"
+    IDS_DEVICE_REQUEST_TIMEOUT 
+                            "Timeout interval for control requests, zero for infinite"
+    IDS_DEVICE_NUMBER       "Zero-based index of the device to open. Use the Scan button to show available devices."
+    IDS_BUTTON_DEVICE_DESC  "Query USB device descriptor; dump to output window"
+    IDS_EDIT_CONFIG_DESC    "Index of configuration descriptor to be queried"
+    IDS_BUTTON_CONFIG_DESC  "Query configuration descriptor; dump to output window"
+    IDS_EDIT_STRING_DESC    "Index of string descriptor to be queried; zero to get language IDs"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_EDIT_STRING_DESC_LID "Language ID of string descriptor to be queried"
+    IDS_BUTTON_STRING_DESC  "Query string descriptor; dump to output window"
+    IDS_EDIT_CONFIG_INDEX   "Index of configuration to be set"
+    IDS_BUTTON_SET_CONFIGURATION "Set the configuration selected by index"
+    IDS_BUTTON_GET_CONFIGURATION "Get the configuration currently set"
+    IDS_BUTTON_UNCONFIGURE_DEVICE "Unconfigure the USB device"
+    IDS_EDIT_IFNB           "Index of interface to be configured"
+    IDS_EDIT_ASNB           "Index of alternate setting to be configured"
+    IDS_EDIT_MAXTR          "Maximum transfer (buffer) size, in bytes"
+    IDS_CHECK_IF            "Enable configuration of this interface"
+    IDS_EDIT_IFNB1          "Index of interface to be modified"
+    IDS_EDIT_ASNB1          "New alternate setting for this interface"
+    IDS_BUTTON_SET_INTERFACE 
+                            "Select a new alternate setting for the interface"
+    IDS_BUTTON_GET_INTERFACE 
+                            "Query the current alternate setting of the interface"
+    IDS_BUTTON_GET_PIPE_INFO 
+                            "Retrieve configuration information from USBIO; dump to output window"
+    IDS_BUTTON_RELEASE      "Release the exclusive usage of the device."
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_COMBO_DIRECTION     "Direction of data transfer stage of SETUP request"
+    IDS_COMBO_TYPE          "Type of SETUP request"
+    IDS_COMBO_RECIPIENT     "Recipient of SETUP request"
+    IDS_EDIT_REQUEST        "bRequest field of SETUP packet (8 bit)"
+    IDS_EDIT_VALUE          "wValue field of SETUP packet (16 bit)"
+    IDS_EDIT_INDEX          "wIndex field of SETUP packet (16 bit)"
+    IDS_CHECK_SHORT_OK      "Allow short packets in the data receive stage"
+    IDS_EDIT_BUFFER         "Sequence of bytes to be send in the data stage, separated by spaces"
+    IDS_EDIT_BUFFER_LENGTH  "Size of the receive buffer, in bytes"
+    IDS_BUTTON_SEND_REQUEST "Send the specified SETUP request, display results in the output window"
+    IDS_COMBO_RECIPIENT4    "Recipient of FEATURE request"
+    IDS_EDIT_FEATURE_SELECTOR "Feature selector value of FEATURE request"
+    IDS_EDIT_INDEX4         "Index value of FEATURE request"
+    IDS_SET_FEATURE         "Send a SET_FEATURE request as specified"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_CLEAR_FEATURE       "Send a CLEAR_FEATURE request as specified"
+    IDS_BUTTON_GET_CURRENT_FNB 
+                            "Query the current USB frame number; dump to output window"
+    IDS_BUTTON_RESET_DEVICE "Issue an USB Reset to the device."
+    IDS_BUTTON_CYCLE_PORT   "Simulate a disconnect/connect cycle. This will unload/load the USBIO driver"
+    IDS_BUTTON_GET_STATUS   "Send a GET_STATUS request"
+    IDS_COMBO_RECIPIENT3    "Recipient of GET_STATUS request"
+    IDS_EDIT_INDEX3         "Index value of GET_STATUS request"
+    IDS_BUTTON_SET_POWER    "Set a new device power state"
+    IDS_COMBO_POWER         "New power state to be set"
+    IDS_BUTTON_GET_POWER    "Query the current power state of the device; dump to output window"
+    IDS_BUTTON_OUTPUT_WINDOW 
+                            "Activate the output window that shows program messages"
+    IDS_BUTTON_CLEAR_OUTPUT_WINDOW "Delete the contents of the output window"
+    IDS_IDOK                "Quit the application"
+    IDS_BUTTON_ABORT_PIPE   "Cancel all pending buffers"
+    IDS_BUTTON_RESET_PIPE   "Clear an error condition on the pipe"
+    IDS_BUTTON_GET_PIPE_PARAMS "Query current pipe parameters"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_BUTTON_SET_PIPE_PARAMS "Set new pipe parameters"
+    IDS_EDIT_BUF_SIZE       "Size of a buffer, in bytes; multiple of the endpoint's FIFO size"
+    IDS_EDIT_BUF_COUNT      "Number of buffers used for the data transfer"
+    IDS_EDIT_MAX_ERRCOUNT   "Max number of errors to be tolerated; transfer stops if this limit is reached"
+    IDS_EDIT_ISO_PACKET_COUNT 
+                            "Number of ISO frames in a buffer; used to calculate buffer size"
+    IDS_PIPE_COMBO_DIRECTION "Direction of the data transfer stage"
+    IDS_SHORT_TRANSFER_OK   "Allow short packets in the data stage"
+    IDS_PIPE_SETUP          "SETUP packet to be send as a sequence of 8 bytes, separated by spaces"
+    IDS_PIPE_EDIT_BUFFER    "Sequence of bytes to be send in the data stage, separated by spaces"
+    IDS_PIPE_EDIT_BUFFER_LENGTH "Size of the receive buffer, in bytes"
+    IDS_BUTTON_PIPE_SEND_REQUEST 
+                            "Send the specified request to the control endpoint."
+    IDS_EDIT_DST_FILE       "Path and file name of the target file"
+    IDS_BUTTON_DST_FILE_BROWSE "Browse for the target file"
+    IDS_BUTTON_START_READINGTOFILE 
+                            "Start a worker-thread that continuously reads from the endpoint."
+    IDS_BUTTON_STOP_READINGTOFILE 
+                            "Stop the worker-thread. No more IN tokens will appear for this endpoint."
+    IDS_CHECK_PRINT_OUT     "Dump received data to the output window. ISO data will not be dumped."
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_BUTTON_START_WRITINGFROMFILE 
+                            "Start a worker-thread that continuously writes to the endpoint."
+    IDS_BUTTON_STOP_WRITINGFROMFILE 
+                            "Stop the worker-thread. No more OUT tokens will appear for this endpoint."
+    IDS_REWIND              "At the end of the file, rewind and continue."
+    IDS_EDIT_SRC_FILE       "Path and file name of the source file"
+    IDS_BUTTON_SEND_ZERO_PACKET "Send a zero packet to the endpoint"
+    IDS_EDIT_SAMPLE_RATE    "For ISO Endpoints only: Audio sample rate to be transmitted"
+    IDS_EDIT_SAMPLE_SIZE    "For ISO Endpoints only: Size of an audio sample, in bytes"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_BUTTON_SRC_FILE_BROWSE "Browse for the source file"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_BUTTON_DEVICE_QUALIFIER_DESC 
+                            "Query the USB Device Qualifier Descriptor; dump to output window"
+    IDS_BUTTON_OTHER_SPEED_CONFIG_DESC 
+                            "Query the Other Speed Configuration Descriptor; dump to output window"
+    IDS_BUTTON_BANDWIDTH    "Get information on the USB bandwidth usage."
+    IDS_EDIT_ANY_DESC_TYPE  "Type of the descriptor"
+    IDS_EDIT_ANY_DESC_INDEX "Index of the descriptor"
+    IDS_EDIT_ANY_DESC_LENGTH "Maximum length of the descriptor, in bytes"
+    IDS_BUTTON_ANY_DESC     "Get a descriptor from the device."
+    IDS_LIST_ENDPOINTS      "Endpoints active in the current configuration; select an endpoint to be opened"
+    IDS_BUTTON_OPEN_PIPE_TOWIN 
+                            "Open the selected endpoint; read from the endpoint; dump data to the output window"
+    IDS_BUTTON_OPEN_PIPE_TOFILE 
+                            "Open the selected endpoint; read from the endpoint; write data to a file"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_BUTTON_OPEN_PIPE_FROMFILE 
+                            "Open the selected endpoint; read data from a file; write to the endpoint"
+    IDS_EDIT_STATS_MEAN_RATE 
+                            "Current average data rate transferred on the pipe"
+    IDS_EDIT_STATS_BYTES_TRANSFERRED 
+                            "Total number of bytes transferred on the pipe so far; unsigned 64 bit counter"
+    IDS_EDIT_STATS_REQ_SUCCEEDED 
+                            "Total number of read/write requests (ISO frames) succeeded on the pipe so far"
+    IDS_EDIT_STATS_REQ_FAILED 
+                            "Total number of read/write requests (ISO frames) failed on the pipe so far"
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE 9, 1
+#pragma code_page(1252)
+#endif
+#include "res\USBIOAPP.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"         // Standard components
+#endif
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

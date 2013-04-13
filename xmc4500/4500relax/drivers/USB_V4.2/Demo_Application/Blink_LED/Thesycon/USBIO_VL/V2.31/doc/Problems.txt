@@ -1,0 +1,574 @@
+Thesycon Systemsoftware & Consulting GmbH
+
+USBIO Driver Package
+
+Known Problems
+
+
+The following list shows problems we have encountered while debugging
+and testing the USBIO device driver.
+
+Some of the problems described below are caused by bugs or inadequacies
+in the implementation of the operating system's USB driver stack.
+Others can be caused by misbehaving device firmware.
+
+The behaviour of the Microsoft USB drivers (USBD.SYS, USBHUB.SYS,
+OPENHCI.SYS, UHCD.SYS) seems to be different on several computers.
+Especially, the device driver for the Open Host Controller
+OPENHCI.SYS (e.g. ALi chip sets) does not behave in the same way as
+the driver for the Universal Host Controller UHCD.SYS (Intel chip sets).
+
+In addition, there are differences in the behaviour of the operating
+systems, Windows 98, Windows Millennium, Windows 2000, Windows XP.
+The Power Management features and the behaviour seem to be very different
+on various computers. The behaviour depends on the implementation of
+the system's BIOS and its ACPI or APM implementation.
+
+We recommend to test the Plug&Play and Power Management features on all
+target platforms you plan to support. Especially, you should do tests on
+both hardware platforms, Open Host Controller and Universal Host Controller.
+
+**************************************************************************
+Problem: Lost packets on Bulk pipe
+         
+
+Operating System: Windows XP 64
+Chipset: VIA Enhanced Host Controller
+
+Description:
+Lost packets are detected from time to time in a data transfer on bulk pipe.
+
+Cause:
+This problem is caused in VIA chipset.
+
+Workaround:
+No known workaround.
+
+**************************************************************************
+Problem: Bulk IN transfer stops
+         
+
+Operating System: Windows 2000, Windows XP, independent from SP
+with driver stack from Intel
+Chipset: Enhanced Host Controller
+
+Description:
+If the application reads data on a bulk or interrupt pipe with a buffer larger
+than 20 kByte and the device sends a short packet, the buffer is never completed.
+The application does not get the data.
+
+Cause:
+This problem is caused by an implementation error in the driver from Intel.
+
+Workaround:
+Update the EHC driver to the most current driver from Microsoft.
+
+**************************************************************************
+Problem: Bulk IN transfer stops
+         
+
+Operating System: Windows 2000 SP3, Windows XP, XP SP1
+Chipset: Enhanced Host Controller
+
+Description:
+If the application reads data on a bulk pipe from a full speed device 
+which is connected to a USB 2.0 hub, the data traffic stops. The bus 
+driver keeps the IRPs pending. This error occurs if the number of used
+buffers is grater 2 and the buffer size is smaller than 256. Furthermore
+it depends on the timing. If the driver speed is reduced by traces it
+works.
+
+Cause:
+The behavior is caused by a flaw in the implementation of the 
+EHC driver usbehci.sys in Windows.
+
+Workaround:
+Use either only one buffer or larger buffers. The bug seems to be fixed 
+in W2k SP4 and WXP SP2.
+
+**************************************************************************
+Problem: On interrupt OUT transfers a zero length packet causes different 
+         problems.
+         
+
+Operating System: Windows 2000 SP4, Windows XP, XP SP1, XP SP1 + Hotfix Q312370
+Chipset: Enhanced Host Controller
+
+Description:
+If the application sends a zero length packet on an interrupt OUT endpoint
+either the request is not returned by the bus driver or a blue screen is
+caused by the usbehci.sys. This problem can occur with full speed
+devices if they are connect with a high speed complaint hub to an enhanced
+host controller.
+
+
+Cause:
+The behavior is caused by a flaw in the implementation of the 
+EHC driver usbehci.sys in Windows XP.
+
+Workaround:
+Don't send zero length packets on an interrupt OUT endpoint. 
+
+**************************************************************************
+Problem: On isochronous IN and OUT transfers sometimes the operation is
+         completed with status USBIO_ERR_ISO_NOT_ACCESSED_BY_HW (0xE0020000L).
+
+Operating System:  Windows XP, XP SP1, XP SP1 + Hotfix Q312370
+Chipset: Enhanced Host Controller
+
+Description:
+If the status USBIO_ERR_ISO_NOT_ACCESSED_BY_HW is returned the transfer 
+descriptor was not accessed by the host controller hardware. 
+This can cause an interruption in the isochronous data stream in both
+IN and OUT direction.
+
+Cause:
+The behavior is caused by a flaw in the implementation of the 
+EHC driver usbehci.sys in Windows XP.
+In fact, there is a weakness in the specification of the 
+Enhanced Host Controller. The handshake between host CPU and
+host controller is not clearly defined for the periodic schedule.
+Therefore, the EHC device driver is required to implement a 
+work-around. Unfortunately, the usbehci.sys implementation does
+not implement such a work-around.
+
+Workaround:
+not known
+
+
+
+**************************************************************************
+Problem: On bulk or interrupt IN transfers buffers are received in the
+         wrong order.
+
+Operating System:  Windows XP, XP SP1, XP SP1 + Hotfix Q312370
+Chipset: Universal Host Controller
+
+Description:
+During read operations (transfers from the device to the host), the data 
+buffers come back to the application out of sequence. This will cause
+data corruption.
+We observed this problem when the following parameters were used:
+
+ Buffer Size | Number of Buffers
+=================================
+   256 bytes |     > 47
+  1024 bytes |     > 15
+  4096 bytes |     > 4
+
+With 50 buffers and a buffer size of 1024 this problem could observed 
+approximately each 5 minutes.
+
+The exact conditions that cause the problem to show up are not 
+yet known.
+
+Cause:
+There are bugs in the implementation of the UHC driver in Windows XP.
+These bugs are not fixed with Service Pack 1 for Windows XP.
+
+Workaround:
+Try to arrange your buffers in such a way that the problem is avoided.
+
+
+
+**************************************************************************
+Problem: ISO requests cause system crash / Windows error
+
+Operating System: Windows XP, XP SP1 + Hotfix Q312370
+Chipset: Open Host Controller
+
+Description:
+During an isochronous data transfer if the total number of iso frames
+(the product of Frames per Buffer and Number of Buffers) is too large
+a system crash can occur.
+The critical number of iso frames is not exactly known up to now.
+For example, we got correct results with 5 buffers and 32 iso frames
+per buffer.
+At the operating system WindowsXP SP1 with hotfix o system crash was occrred 
+but a Windows Error was generated.
+
+Cause:
+There are bugs in the implementation of the OHC driver in Windows XP.
+
+Workaround:
+Arrange your buffers in such a way that the critical number of 
+iso frames will not be exceeded.
+
+Use a total number of iso frames (the product of Frames per Buffer and 
+Number of Buffers) less than or equal to 256.
+
+
+**************************************************************************
+Problem: ISO requests cause invalid USB traffic
+
+Operating System:  Windows XP, XP SP1 + Hotfix
+Chipset: Universal Host Controller
+
+Description:
+During an isochronous data transfer if the total number of iso frames
+(the product of Frames per Buffer and Number of Buffers) is too large
+then invalid USB traffic is generated by the host controller.
+The host controller issues two or more IN or OUT tokens per USB frame.
+This is not conform with the USB specification which defines one token 
+per frame.
+The critical number of iso frames is not exactly known up to now.
+For example, we got correct results with 5 buffers and 32 iso frames
+per buffer.
+
+Cause:
+The implementation of the UHC driver in Windows XP has problems
+in handling isochronous traffic correctly. This seems to be a bug.
+
+Workaround:
+Arrange your buffers in such a way that the critical number of 
+iso frames will not be exceeded.
+
+Use a total number of iso frames (the product of Frames per Buffer and 
+Number of Buffers) less than or equal to 256.
+
+
+**************************************************************************
+Problem: Request IOCTL_USBIO_GET_INTERFACE returns error code 0xE0000E00
+
+Operating System:  Windows XP
+Chipset: Open Host Controller, Universal Host Controller
+
+Description:
+The request IOCTL_USBIO_GET_INTERFACE returns with an error code 
+of 0xE0000E00 (Not supported).
+
+Cause:
+This request is not supported by the USB driver stack on Windows XP.
+
+Workaround:
+Not known. This request cannot be used on Windows XP.
+
+
+
+**************************************************************************
+Problem: AbortPipe does not cause host controller to stop
+         sending IN tokens
+
+Operating System: Windows 98 SE, Windows 2000
+Chipset: Universal Host Controller
+
+Description:
+If an IN pipe is used with at least two buffers pending and the
+IOCTL_USBIO_ABORT_PIPE function is called the Universal Host Controller
+driver continues sending IN tokens for 10 seconds. But, the frequency
+is reduced to one IN token per ms.
+If the device returns data to such an IN token, the data will be lost.
+That is, because after the call to the IOCTL_USBIO_ABORT_PIPE function
+all buffers will be immediately returned to the application and the
+application can close its handle.
+This bug cannot be observed in Windows 98 (Gold).
+
+Cause:
+The implementation of the MS driver stack in Windows 98 SE differs from
+that in Windows 98 (Gold).
+
+Workaround:
+The host controller stops sending IN tokens if the device is unconfigured
+(IOCTL_USBIO_UNCONFIGURE_DEVICE request).
+
+
+
+**************************************************************************
+Problem: SetConfiguration fails for multi-interface devices
+
+Operating System: Windows Millennium (ME)
+
+Description:
+For a device that exports several interfaces the Multi Interface Driver
+that is provided by Microsoft as part of the operating system (built
+into usbhub.sys) is loaded. On Windows ME each interface must be
+configured separately in that case. This requirement is enforced by
+the Multi Interface Driver.
+This behaviour can only be observed on Windows ME.
+
+Cause:
+The implementation of the MS driver stack in Windows ME differs from
+that in Windows 98 (Gold) and Windows 2000.
+
+Workaround:
+Call IOCTL_USBIO_SET_CONFIGURATION for each interface separately.
+Set USBIO_SET_CONFIGURATION.NbOfInterfaces to one in each call.
+Thus, one interface is configured per call.
+
+
+
+**************************************************************************
+Problem: USB standard request SYNCH_FRAME is not supported
+
+Operating System: any
+
+Description:
+USBIO does not support the standard request SYNCH_FRAME defined in the
+USB specification. It is not possible to send a SYNCH_FRAME
+request to the Control Endpoint EP0 from the USBIO API.
+
+Cause:
+The USB bus driver (USBD) that is provided by MS with the operating system
+does not support this request. USBIO relies on the programming interface
+of USBD.
+
+Workaround:
+Define a vendor request with the same semantics as SYNCH_FRAME and use
+that instead. USBIO fully supports vendor requests.
+
+
+
+**************************************************************************
+Problem: Universal Host Controller hangs on power down
+
+Operating System: Windows 98
+Chipset: Universal Host Controller
+
+Description:
+The Universal Host Controller hangs on power down if there a any pending
+read or write requests (buffers).
+
+Cause:
+The MS USB driver stack implementation (USBD) requires that all buffers
+are cancelled before the device leaves D0.
+
+Workaround:
+IOCTL_USBIO_ABORT_PIPE has to be called before the device goes into
+power state D3.
+This is automatically performed by the USBIO driver if the registry
+parameter AbortPipesOnPowerDown is set to 1 (TRUE).
+
+
+
+**************************************************************************
+Problem: Unplugging the device causes page fault
+
+Operating System: Windows 98
+Chipset: Open Host Controller
+
+Description:
+Unplugging the device while an ISO data transfer is active causes a
+page fault in OPENHCI.SYS.
+
+Cause:
+Seems to be a bug in OPENHCI.SYS.
+
+Workaround:
+not known
+
+
+
+**************************************************************************
+Problem: AbortPipe on ISO pipe causes page fault
+
+Operating System: Windows 98, Windows NT 5.0 Beta2
+Chipset: Open Host Controller
+
+Description:
+Calling IOCTL_USBIO_ABORT_PIPE while an ISO data transfer is active
+causes a page fault in OPENHCI.SYS.
+
+Cause:
+Seems to be a bug in OPENHCI.SYS.
+
+Workaround:
+Don't use Abort Pipe on ISO pipes. Instead of using Abort Pipe wait
+until all buffers are completed.
+
+
+
+**************************************************************************
+Problem: Read and Write on ISO pipes gives sometimes wrong results
+
+Operating System: Windows 98, Windows 2000
+Chipset: Open Host Controller (Aladdin V chipset)
+
+Description:
+A buffer for an isochronous transaction consists of a USBIO_ISO_TRANSFER_HEADER,
+an array of USBIO_ISO_PACKET structures, and an array of Transfer Buffers (see
+manual, chapter Isochronous Transfers for details). The transfer buffers contain
+the data to transmit or receive. If a transfer buffer ends on a 4K boundary in
+the memory the Open Host Controller behaves wrong. In a read operation, the
+buffer is not filled but the return status indicates success. In a write 
+operation arbitrary data is sent (not the contents of the buffer).
+
+Cause:
+Seems to be a bug in OPENHCI.SYS or in the Aladdin chipset.
+
+Workaround:
+Align the buffers in such a way that no transfer buffer ends on a 4K memory
+boundary.
+
+
+
+**************************************************************************
+Problem: ResetDevice does not work if the device is unconfigured
+
+Operating System: Windows 2000
+Chipset: Universal Host Controller
+
+Description:
+The IOCTL_INTERNAL_USB_RESET_PORT instruction of USBD does not work if the USB
+device is not configured. The request returns with error NO_SUCH_DEVICE and all
+further requests to the device are returned with status "invalid parameter".
+However, the analysis of the bus traffic shows that the reset is completed on
+the bus (RESET, GET_DEVICE_DESCRIPTOR, SET_ADDRESS).
+The device must be removed and re-plugged to establish a new connection.
+
+Cause:
+Seems to be a problem in the MS driver stack.
+
+Workaround:
+Do not use IOCTL_USBIO_RESET_DEVICE while the device is in unconfigured state.
+
+
+
+**************************************************************************
+Problem: Suspend or Hibernate does not work if the device is unconfigured
+
+Operating System: Windows 2000 and Windows ME
+Chipset: Universal Host Controller, Open Host Controller
+
+Description:
+Windows 2000 expects that the USB device is configured if the USBIO driver is
+loaded. If the USB device is not configured and the device is switched to the
+state D3 (device power off) Windows 2000 unloads the driver (IRP_MN_REMOVE_DEVICE)
+some seconds after the system is resumed. The reaction to the suspend state 
+depends on the USB host controller and the Power Management support of the PC
+(ACPI or APM). If the USB host controller is part of the chip set the device
+is switched to state D2 (USB Suspend), if the host controller is on a
+PCI add-on card it is switched to D3.
+
+Cause:
+This is the behaviour of the MS USB driver stack.
+
+Workaround:
+Always set the device into a configured state (IOCTL_USBIO_SET_CONFIGURATION).
+
+
+
+**************************************************************************
+Problem: Device is not accessible after IOCTL_USBIO_RESET_DEVICE
+
+Operating System: Windows 2000
+Chipset: Open Host Controller, Universal Host Controller
+
+Description:
+On Windows 2000, if a device changes its descriptor set after USB Reset -- to
+implement the Device Firmware Upgrade specification, for example -- the device
+is not accessible after the reset sequence.
+
+Cause:
+Caused by the implementation of device enumeration in USBD.
+
+Workaround:
+Use IOCTL_USBIO_CYCLE_PORT instead of IOCTL_USBIO_RESET_DEVICE.
+
+
+
+**************************************************************************
+Problem: USB reset sequence is incompatible with Device Firmware Upgrade 
+         specification
+
+Operating System: any
+Chipset: Open Host Controller, Universal Host Controller
+
+Description:
+The USB Reset operation (IOCTL_USBIO_RESET_DEVICE) triggers the following
+sequence:
+- USB Reset
+- GET_DEVICE_DESCRIPTOR
+- USB Reset
+- SET_ADDRESS
+- GET_DEVICE_DESCRIPTOR
+- GET_CONFIGURATION_DESCRIPTOR
+This sequence is *not* caused by the USBIO driver. It is the standard device
+enumeration method implemented by the USB bus driver (USBD).
+The fact that two USB Resets are issued is incompatible with the USB Device
+Class specification for Device Firmware Upgrade (DFU).
+
+Cause:
+Caused by the implementation of device enumeration in USBD.
+
+Workaround:
+The special conditions caused by the sequence described above has to be
+handled by the device's firmware.
+
+
+
+**************************************************************************
+Problem: Invalid consumed bandwith info
+
+Operating System: Windows 98 SE, Windows ME, Windows 2000
+Chipset: Universal Host Controller (Windows 98 SE only), Open Host Controller
+
+Description:
+The bandwith info contains an invalid value for consumed bandwith
+
+Cause:
+The USB bus driver returns an invalid value.
+
+Workaround:
+No known workaround.
+
+
+
+**************************************************************************
+Problem: Invalid descriptor length causes system crash
+
+Operating System: Windows 98, Windows 98 SE, Windows 2000
+Chipset: Open Host Controller, Universal Host Controller
+
+Description:
+USB descriptors returned by a device *must have* a valid length field.
+The USB bus driver (USBD) causes a system crash if the length field
+does not correspond to the real size of the descriptor.
+
+Cause:
+The USB bus driver does not check for an invalid descriptor length.
+
+Workaround:
+Always return correct descriptors as defined by the USB specification.
+
+
+
+**************************************************************************
+Problem: Incorrect response for GET_DESCRIPTOR causes system crash
+
+Operating System: Windows 98 SE, Windows 2000
+Chipset: Open Host Controller, Universal Host Controller
+
+Description:
+An USB device must support correctly a GET_DESCRIPTOR request for a partial
+descriptor as defined by the USB specification. If the device returns
+more descriptor bytes than requested by the host the system crashes.
+
+Cause:
+The USB bus driver (USBD) is not able to handle an invalid data length.
+
+Workaround:
+Always return the requested number of descriptor bytes as defined
+by the USB specification.
+
+
+
+**************************************************************************
+Problem: UnregisterDeviceNotification() causes problems on Windows 98
+
+Operating System: Windows 98
+
+Description:
+The Win32 API call UnregisterDeviceNotification() seems to have a bug
+on Windows 98. If this function is used by an application the system
+becomes unstable and may crash some time later.
+The bug is "well-known" and was discussed in some usenet groups.
+
+Cause:
+Bug in UnregisterDeviceNotification()
+
+Workaround:
+Don't use UnregisterDeviceNotification() on Windows 98.
+
+
+
+************************* End of File ************************************

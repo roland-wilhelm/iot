@@ -1,0 +1,19 @@
+Build Rules:
+
+User Flags:  -mall-errata -mcpu=tc1130 
+Standard Debug
+Level2
+Tv1.3
+
+Defines:
+TRIBOARD_TC1130
+
+
+LINK RULES:
+
+o/p: usb_lnk.elf
+
+Link Flags: -mtc13 -mcpu=tc1130 -Wl,-Map -Wl,usb_internal.lst
+
+Link Script
+//PATH/target.ld

@@ -1,0 +1,223 @@
+
+Thesycon Systemsoftware & Consulting GmbH
+
+USBIO Development Kit
+
+Revision History
+
+-----------------------------------------------------
+11/23/2005 Version 2.31
+-----------------------------------------------------
+- fix a problem in the Java interface (PnP functions)
+- links in Java documentation repaired
+- Visual Basic demo application repaired
+
+-----------------------------------------------------
+09/12/2005 Version 2.30
+-----------------------------------------------------
+- support for Windows x64 added
+- Native Java API added (JNI DLL + class libary)
+- Support for Cypress FX firmware download added
+- new source code sample PnPDemo added
+- C# source code sample (based on USBIOCOM) added
+- Exclusive device access feature added (Acquire/Release API)
+- Automatic device configuration on driver startup
+- Abort is only called if pending IRP's exists
+- Implementation of mutex in PnP path revised
+- driver configuration is stored under the device's hardware key
+- Registry parameter DisableDefaultInterface added
+- DebugMask is read from the current service key
+- Wakeup Irp is send after configuration
+- CUsbio::Open returns improved error codes
+- CUsbio::Open implements less strict version check
+- CUsbIo::Acquire and CUsbIo::Release functions added
+- CUsbIoThread set default thread priority to "highest"
+- separate INFs for 98/ME and XP/2000, XP x64
+- default setting CUsbIoBuf.cpp ENABLE_OHCI_ISO_WORKAROUND set to 0
+- symbol files (.pdb files) are shipped, may be required for WHQL
+
+-----------------------------------------------------
+09/24/2004 Version 2.20
+-----------------------------------------------------
+License model is simplified
+Demo version runs now 4 hours
+
+-----------------------------------------------------
+06/30/2004 Version 2.15
+-----------------------------------------------------
+- class CPnPNotificator added to UsbIo Library
+- Io controls IOCTL_USBIO_ACQUIRE_DEVICE and IOCTL_USBIO_RELEASE_DEVICE for exclusive use added
+- CUsbio::Open() returns error code USBIO_ERR_DEVICE_ALREADY_OPENED instead of USBIO_ERR_SUCCESS
+  if the device is opened.
+- Java interface added
+- Released for Windows 2k SP4, XP SP2, 98 SE and ME
+- Unconfigured Device must be called by the same process which has called SetConfiguration
+- Additional error code 0xE000101F USBIO_ERR_INVALID_PROCESS
+- AbortPipe is only called if the pipe was used.
+- AbortPipe is called only one time during clean up. 
+- Registry key settings allow to configure the device automaticaly during driver startup
+- Version Check in the library changes, it fails if the major verion is changed or if the minor version
+  of the driver is less than the expected version
+- Selective suspend and remote wake up improved
+- preperation for WHQL certification improved
+- flags USBIO_DEVICE_INFOFLAG_HUB_BUS_POWERED and USBIO_DEVICE_INFOFLAG_HUB_SELF_POWERED added
+- Configuration registry keys to HW key, display name removed
+- debug parameters set to service key
+
+-----------------------------------------------------
+01/29/2003 Version 2.00
+-----------------------------------------------------
+Support for USB 2.0 on WinXP SP1 and Win2000 SP3
+Cleanup Wizard supports complete removal of all USBIO files
+and registry entries on uninstall
+The licensing model has been enhanced
+USBIOAPP:
+User interface improved
+Parameters entered will be saved in the registry
+USBIOLIB:
+Classes enhanced by the additional requests provided by API 2.0
+setupapi.dll is loaded explicitly at runtime,
+allows to create applications that run on WinNT as well
+USBIODRV:
+Support for USB 2.0 driver stack (EHC)
+Separate executables for W2K/WXP and W98/WME, required
+to support WHQL certification
+Support for statistical analysis of data transfer on pipes
+Inquiry of available bus bandwidth supported
+USBIO API version 2.0 supports additional IOCTLs:
+  IOCTL_USBIO_SETUP_PIPE_STATISTICS
+  IOCTL_USBIO_QUERY_PIPE_STATISTICS
+  IOCTL_USBIO_GET_BANDWIDTH_INFO
+  IOCTL_USBIO_GET_DEVICE_INFO
+Additional status codes introduced, required for USB 2.0
+Fix for wrong behavior if a device does not have 
+additional endpoints.
+
+-----------------------------------------------------
+02/08/2002 Version 1.51
+-----------------------------------------------------
+Support for Windows XP improved
+USBIODRV:
+Fix for specific PnP behavior of USB bus driver on XP
+Minor fixes for issues complained by DriverVerifier on XP
+
+-----------------------------------------------------
+01/11/2002 Version 1.50
+-----------------------------------------------------
+Support for Windows XP added (see also problems.txt)
+USBIO COM interface released, support for Visual Basic, Delphi
+USBIO COM interface enhanced: PnP Notification functions added
+USBIODRV:
+Work-around for bug in host controller driver added:
+cancelled buffers will be deferred by USBIO.
+Implementation of get configuration descriptor within
+set configuration modified: fixed part of desc (9 bytes) 
+is retrieved first, complete desc in a second step
+
+-----------------------------------------------------
+08/14/2001 Version 1.49 prerelease
+-----------------------------------------------------
+USBIO COM interface added
+(beta version of COM object)
+
+-----------------------------------------------------
+05/08/2001 Version 1.42
+-----------------------------------------------------
+Include file usbiover.h added; defines the current 
+version of the USBIO package at a central place
+Problem fixed:
+IOCTL_USBIO_SET_INTERFACE returned SUCCESS if an invalid
+Alternate Setting was specified.
+USBIO_ERR_INVALID_PARAM is returned now.
+
+-----------------------------------------------------
+12/14/2000 Version 1.41
+-----------------------------------------------------
+USBIOLIB:
+Problem with ShutdownThread() call from the destructor
+of CUsbIoThread class fixed
+
+-----------------------------------------------------
+11/02/2000 Version 1.40
+-----------------------------------------------------
+USBIO Installation Wizard included; allows quick and
+easy driver installation (GUI based)
+USBIO does support the Remote Wakeup feature now,
+see Reference Manual for details.
+USBIO supports a new API function IOCTL_USBIO_CYCLE_PORT
+that is required to implement the Device Firmware Upgrade
+specification, see Reference Manual for details.
+USBIO is tested on Windows Millennium and Windows 2000 SP1
+A work-around is included to support the special behaviour
+of Windows ME regarding configuration of multi-interface
+devices (see also Problems.txt).
+A Setup Wizard for the USBIO package is provided,
+supports also uninstall
+USBIOLIB:
+New member functions added to CUsbIo to support the new
+API functions
+USBIOAPP:
+GUI is disabled until a device was opened successfully.
+Improved Pipe Dialog, GUI elements that are not needed for
+the current endpoint type are disabled or hidden now.
+Tooltips has been added for all GUI elements
+
+-----------------------------------------------------
+05/25/2000 Version 1.30
+-----------------------------------------------------
+Switched to VC++ 6.0, development tools used now:
+VC++ 6.0 Service Pack 3
+Windows 2000 DDK
+Programming interface for Delphi included now
+Some changes for correct support of Win2000 release:
+Registry parameters are located in HKLM\System\CCS\Services\USBIO now
+Modification of power management handling to support Hibernation
+New device naming model:
+WDM device interfaces are used now (identified by a GUID)
+Old-style (static) device names are still supported,
+but are disabled by default. This allows backward compatibility.
+USBIOLIB:
+New member functions in CUsbIo, CreateDeviceList() and
+DestroyDeviceList(). Enhanced Open() function.
+Improved implementation of CUsbIoThread::ShutdownThread().
+USBIOAPP:
+Uses the new device enumeration method
+Uses device notifications now, RegisterDeviceNotification() 
+and UnregisterDeviceNotification() API
+
+-----------------------------------------------------
+09/24/1999 Version 1.16
+-----------------------------------------------------
+Windows 2000 RC2 DDK now used to build the driver,
+causes modification of the directory structure
+USBIOLIB: Fix in ErrorText()
+USBIOAPP: Display of driver version info
+
+-----------------------------------------------------
+09/01/1999 Version 1.13
+-----------------------------------------------------
+Additional documentation in the INF file
+Additional sample code: ReaderCpp
+
+-----------------------------------------------------
+08/16/1999 Version 1.11
+-----------------------------------------------------
+USBIOAPP: Correct synchronisation of worker threads and
+MFC threads (PostMessage)
+USBIOAPP: Improved error message handling
+USBIOLIB: Improved implementation of ShutdownThread
+Minor changes for correct support of Win2000 RC1
+
+-----------------------------------------------------
+04/09/1999 Version 1.06
+-----------------------------------------------------
+Minor changes for correct support of NT5 Beta
+Minor enhancements in the INF file
+
+-----------------------------------------------------
+12/14/1998 Version 1.00
+-----------------------------------------------------
+First release of the USBIO driver
+Development tools used:
+VC++ 5.0 SP3
+NT5 B2 DDK

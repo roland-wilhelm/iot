@@ -1,0 +1,360 @@
+	; TASKING TriCore VX-toolset C compiler v2.2r3 Build 156.1.4 SN 00099000
+	; Options: -f cc3780a -c99 --fpu-present -Cuserdef113 -Ic:\program files\tasking\ctc v2.2\include -Ic:\program files\tasking\ctc v2.2\include --no-tasking-sfr -c99 -Ax -g -gd --align=1 -O2 -OacefgIklMopsvwy -t2 -N8 --inline-max-incr=35 --inline-max-size=10 --switch=auto -o scu.src
+	; Module start
+	.name	"scu"
+
+	.extern	MAIN_vWriteWDTCON0
+$FPU
+	
+	.sdecl	'.text.scu.SCU_vInit',CODE
+	.sect	'.text.scu.SCU_vInit'
+	.align	4
+	
+	.global	SCU_vInit
+; Function SCU_vInit
+L_5:
+SCU_vInit:	.type	func
+	lea	a15,0xf0000020
+	ld16.w	d15,[a15]
+	ld.w	d0,__const_fffffffe
+	and	d4,d15,d0
+L_14:
+	call	MAIN_vWriteWDTCON0
+L_15:
+	ld.w	d15,__const_ff00d008
+	st.w	0xf0000050,d15
+L_16:
+	mov16	d15,#0
+	st.w	0xf0000030,d15
+L_17:
+	ld16.w	d15,[a15]
+	or	d4,d15,#1
+L_18:
+	call	MAIN_vWriteWDTCON0
+L_19:
+	movh	d4,#61440
+	call	MAIN_vWriteWDTCON0
+L_20:
+	mov16	d15,#0
+	st.w	0xf0000024,d15
+L_21:
+	ld16.w	d15,[a15]
+	or	d4,d15,#1
+L_22:
+	call	MAIN_vWriteWDTCON0
+L_23:
+	mov16	d15,#0
+	st.w	0xf00000b0,d15
+L_24:
+	st.w	0xf00000b4,d15
+L_25:
+	st.w	0xf00000c0,d15
+L_26:
+	st.w	0xf00000c4,d15
+L_27:
+	ret16
+L_7:
+	
+SCU_vInit_function_end:
+	.size	SCU_vInit,SCU_vInit_function_end-SCU_vInit
+	; End of function
+	
+	
+	.sdecl	'.zdata.scu',DATA,ROM
+	.sect	'.zdata.scu'
+	.align	4
+	.align	2
+__const_fffffffe:	.type	object
+	.size	__const_fffffffe,4
+	.word	-2
+	
+	.align	2
+__const_ff00d008:	.type	object
+	.size	__const_ff00d008,4
+	.word	-16723960
+	.sdecl	'.debug_info',DEBUG
+	.sect	'.debug_info'
+L_9:
+	.word	156
+	.half	2
+	.word	L_2
+	.byte	4
+	.byte	1
+	.byte	'scu.c',0
+	.byte	'TriCore VX-toolset C compiler',0
+	.byte	'C:\\TC1130_LLD_V5.00\\USB_V4.2\\Demo_Application\\Blink_LED\\TASKING\\',0
+	.byte	12
+	.word	L_6
+	.word	L_8
+	.byte	2
+	.byte	'SCU_vInit',0
+	.byte	1
+	.byte	122
+	.byte	6
+	.byte	1
+	.word	L_5
+	.word	L_7
+	.word	L_4
+	.byte	3
+	.word	L_5
+	.word	L_7
+	.byte	0
+	.byte	0
+	.sdecl	'.debug_abbrev',DEBUG
+	.sect	'.debug_abbrev'
+L_2:
+	.byte	1
+	.byte	17
+	.byte	1
+	.byte	3
+	.byte	8
+	.byte	37
+	.byte	8
+	.byte	27
+	.byte	8
+	.byte	19
+	.byte	15
+	.byte	85
+	.byte	6
+	.byte	16
+	.byte	6
+	.byte	0
+	.byte	0
+	.byte	2
+	.byte	46
+	.byte	1
+	.byte	3
+	.byte	8
+	.byte	58
+	.byte	15
+	.byte	59
+	.byte	15
+	.byte	57
+	.byte	15
+	.byte	63
+	.byte	12
+	.byte	17
+	.byte	1
+	.byte	18
+	.byte	1
+	.byte	64
+	.byte	6
+	.byte	0
+	.byte	0
+	.byte	3
+	.byte	11
+	.byte	0
+	.byte	17
+	.byte	1
+	.byte	18
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	0
+	.sdecl	'.debug_loc',DEBUG
+	.sect	'.debug_loc'
+L_4:
+	.word	L_5
+	.word	L_7
+	.half	2
+	.byte	138
+	.byte	0
+	.word	0
+	.word	0
+	.sdecl	'.debug_ranges',DEBUG
+	.sect	'.debug_ranges'
+L_6:
+	.word	L_5
+	.word	L_7
+	.word	0
+	.word	0
+	.sdecl	'.debug_line',DEBUG
+	.sect	'.debug_line'
+L_8:
+	.word	L_11-L_10
+L_10:
+	.half	2
+	.word	L_13-L_12
+L_12:
+	.byte	2
+	.byte	1
+	.byte	-4
+	.byte	9
+	.byte	10
+	.byte	0
+	.byte	1
+	.byte	1
+	.byte	1
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.byte	'scu.c',0
+	.byte	0
+	.byte	0
+	.byte	0
+	.byte	0
+L_13:
+	.byte	5
+	.byte	3
+	.byte	7
+	.byte	0
+	.byte	5
+	.byte	2
+	.word	L_5
+	.byte	3
+	.byte	139
+	.byte	1
+	.byte	1
+	.byte	5
+	.byte	23
+	.byte	14+9*((L_14-L_5)/2)
+	.byte	5
+	.byte	31
+	.byte	15+9*((L_15-L_14)/2)
+	.byte	16+9*((L_16-L_15)/2)
+	.byte	5
+	.byte	3
+	.byte	15+9*((L_17-L_16)/2)
+	.byte	5
+	.byte	21
+	.byte	14+9*((L_18-L_17)/2)
+	.byte	5
+	.byte	33
+	.byte	9
+	.half	L_19-L_18
+	.byte	3
+	.byte	10
+	.byte	1
+	.byte	5
+	.byte	31
+	.byte	15+9*((L_20-L_19)/2)
+	.byte	5
+	.byte	3
+	.byte	15+9*((L_21-L_20)/2)
+	.byte	5
+	.byte	21
+	.byte	14+9*((L_22-L_21)/2)
+	.byte	5
+	.byte	31
+	.byte	9
+	.half	L_23-L_22
+	.byte	3
+	.byte	47
+	.byte	1
+	.byte	15+9*((L_24-L_23)/2)
+	.byte	15+9*((L_25-L_24)/2)
+	.byte	15+9*((L_26-L_25)/2)
+	.byte	5
+	.byte	1
+	.byte	9
+	.half	L_27-L_26
+	.byte	3
+	.byte	6
+	.byte	1
+	.byte	9
+	.half	L_7-L_27
+	.byte	0
+	.byte	1
+	.byte	1
+L_11:
+	.sdecl	'.debug_frame',DEBUG
+	.sect	'.debug_frame'
+L_28:
+	.word	92
+	.word	-1
+	.byte	1
+	.byte	0
+	.byte	2
+	.byte	1
+	.byte	27
+	.byte	12
+	.byte	26
+	.byte	0
+	.byte	8
+	.byte	26
+	.byte	8
+	.byte	16
+	.byte	8
+	.byte	17
+	.byte	7
+	.byte	18
+	.byte	7
+	.byte	19
+	.byte	7
+	.byte	20
+	.byte	7
+	.byte	21
+	.byte	7
+	.byte	22
+	.byte	7
+	.byte	23
+	.byte	8
+	.byte	24
+	.byte	8
+	.byte	25
+	.byte	8
+	.byte	27
+	.byte	8
+	.byte	28
+	.byte	8
+	.byte	29
+	.byte	8
+	.byte	30
+	.byte	8
+	.byte	31
+	.byte	7
+	.byte	0
+	.byte	7
+	.byte	1
+	.byte	7
+	.byte	2
+	.byte	7
+	.byte	3
+	.byte	7
+	.byte	4
+	.byte	7
+	.byte	5
+	.byte	7
+	.byte	6
+	.byte	7
+	.byte	7
+	.byte	8
+	.byte	8
+	.byte	8
+	.byte	9
+	.byte	8
+	.byte	10
+	.byte	8
+	.byte	11
+	.byte	8
+	.byte	12
+	.byte	8
+	.byte	13
+	.byte	8
+	.byte	14
+	.byte	8
+	.byte	15
+	.byte	8
+	.byte	32
+	.byte	8
+	.byte	33
+	.byte	8
+	.byte	34
+	.byte	8
+	.byte	35
+	.byte	8
+	.byte	36
+	.byte	8
+	.byte	37
+	.byte	8
+	.byte	38
+	.byte	8
+	.byte	39
+	.word	12
+	.word	L_28
+	.word	L_5
+	.word	L_7-L_5
+	; Module end

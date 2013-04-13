@@ -13,3 +13,6 @@
 !*.ico
 !*.vcproj
 !*.vcxproj
+!*.mk
+!*.scat
+!DAVE-3.1/

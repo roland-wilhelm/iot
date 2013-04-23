@@ -13,3 +13,4 @@ RAM/
 obj/
 lst/
 searchplugins/
+*svn*/

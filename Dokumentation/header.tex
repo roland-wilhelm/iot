@@ -1,0 +1,107 @@
+\documentclass[12pt,a4paper,final]{scrartcl}%article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc} % T1 Encodierung fr europische Zeichenstze
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{3}
+\usepackage{ngerman} % neue deutsche Rechtschreibung
+\usepackage{graphicx}
+%\usepackage{grffile}
+\usepackage{tabularx}
+\usepackage{amsmath} % fr mathematische Formeln
+\usepackage{amssymb} % fr mathematische Symbole
+\usepackage{textcomp,latexsym} % zustzliche Symbole
+\usepackage{float} % fr Flieumgebungen
+\usepackage[left=2.5cm,right=2.5cm,top=2cm,bottom=2cm,includeheadfoot]{geometry}
+\usepackage{url}
+\usepackage{fancybox}
+\usepackage[pdftex,pdfpagelabels,plainpages=true,colorlinks=true,hypertexnames=false,pdfborder=false]{hyperref}
+%\usepackage{lscape}
+%\usepackage{totpages} %Total pages-> \ref{TotPages}
+\usepackage{color}
+\definecolor{Mygrey}{gray}{0.90}
+\usepackage[figurewithin=section]{caption}
+
+%Konfigutation für Codelisting
+%see: http://stackoverflow.com/questions/741985
+\usepackage{listings} \lstset{numbers=left, numberstyle=\tiny, numbersep=5pt} 
+\lstloadlanguages{C,Java,sh}
+\lstset{
+	basicstyle=\footnotesize\ttfamily, % Standardschrift
+	numbers=left,               % Ort der Zeilennummern
+	numberstyle=\tiny,          % Stil der Zeilennummern
+	numbersep=5pt,              % Abstand der Nummern zum Text
+	tabsize=2,                  % Groesse von Tabs
+	extendedchars=true,         %
+	breaklines=true,            % Zeilen werden Umgebrochen
+	stringstyle=\ttfamily, % Farbe der String
+	showspaces=false,           % Leerzeichen anzeigen ?
+	showtabs=false,             % Tabs anzeigen ?
+	xleftmargin= 17pt,
+	framexleftmargin=17pt,
+	framexrightmargin=5pt,
+	framexbottommargin=4pt,
+	showstringspaces=false      % Leerzeichen in Strings anzeigen ?        
+}
+\DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFormat{listing}{\colorbox[cmyk]{0.43, 0.35, 0.35,0.01}{\parbox{\textwidth}{\hspace{15pt}#1#2#3}}}
+\captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white, singlelinecheck=false, margin=0pt, font={bf,footnotesize}}	
+
+
+\usepackage[intoc]{nomencl}
+\usepackage{nomencl}
+\let\abbrev\nomenclatures
+\renewcommand{\nomname}{list of abbreviations}
+\setlength{\nomlabelwidth}{.25\hsize}
+\renewcommand{\nomlabel}[1]{#1 \dotfill}
+\setlength{\nomitemsep}{-\parsep}
+\renewcommand{\figurename}{figure}
+
+%\usepackage{thebibliography}
+
+\usepackage{chngcntr} %ändern der counter
+\counterwithin{figure}{section}
+\counterwithin{table}{section}
+%\counterwithin{equation}{section} 
+
+\restylefloat{figure} % Platzierung H verschiebt nicht
+\restylefloat{table} % Platzierung H verschiebt nicht\usepackage{algpseudocode}
+
+\makeatletter
+\renewcommand\l@figure{\@dottedtocline{1}{1.5em}{2.8em}}
+\makeatother
+
+\parindent=0pt
+\parskip=0pt
+
+\sloppy %blocksatz auch wenn größere Wortabstände in einer Zeile sein werden ;-)
+
+\newcommand{\utsection}[2]{%Section mit Untertitel (ut)
+    \section[#1]{#1\newline\normalfont\small\textit{Von: #2}}
+}
+\newcommand{\utsubsection}[2]{%Subsection mit Untertitel (ut)
+    \subsection[#1]{#1\newline\normalfont\small\textit{Von: #2}}
+}
+
+\setlength{\parskip}{1.0ex plus0.4ex minus 0.4ex} % absatzabstand
+%\renewcommand{\baselinestretch}{1.5}\normalsize %1,5 Zeilenabstand zieht das inhaltsverzeichnis so lang. wenn ihr den unbedingt wollt, dann definiert ihn nach dem Inhaltsverzeichnis, bitte!
+
+% Abstnde fr Text und berschriften
+\newcommand{\settocdepth}[1]{\addtocontents{toc}{\protect\setcounter{tocdepth}{#1}}}
+\newcommand{\code}[1]{\ttfamily{\normalsize{\sloppy{#1}}}\normalfont}
+
+% Abstand zweier Listenelemente kleiner
+%\setlength{\itemsep}{0ex plus0.1ex}
+
+% Kopf- und Fuzeile
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancypagestyle{plain} % alle Seiten im Fancy-Format
+
+\fancyhead[C]{\nouppercase{\leftmark}} %Kopfzeile mittig
+\fancyfoot[C]{\thepage} %Fuzeile mittig
+\renewcommand{\headrulewidth}{0.5pt} %Linie oben
+\renewcommand{\footrulewidth}{0.5pt} %Linie unten
+
+% manuelle Silbentrennung
+%\hyphenation{ber-wach-ungs-Funk-tio-na-li-tt}

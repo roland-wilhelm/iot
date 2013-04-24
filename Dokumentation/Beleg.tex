@@ -1,0 +1,55 @@
+\input{header}
+\newcommand*{\OrigChapter}{}
+\let\OrigChapter\section
+\newcounter{abstables}
+\newcounter{absfigures}
+\renewcommand*{\section}{%
+\addtocounter{abstables}{\value{table}}%
+\addtocounter{absfigures}{\value{figure}}%
+\OrigChapter}
+\makeatletter
+\AtBeginDocument{%
+\AtEndDocument{%
+\addtocounter{abstables}{\value{table}}%
+\addtocounter{absfigures}{\value{figure}}%
+\immediate\write\@mainaux{%
+\string\gdef\string\AbsTab{\number\value{abstables}}%
+\string\gdef\string\AbsFig{\number\value{absfigures}}%
+}}}
+
+\begin{document}
+\let\abbrev\nomenclature
+\renewcommand{\nomname}{Abkürzungsverzeichniss}
+\setlength{\nomlabelwidth}{.25\hsize}
+\renewcommand{\nomlabel}[1]{#1 \dotfill}
+\setlength{\nomitemsep}{-\parsep}
+	\makenomenclature 
+	\pagenumbering{roman}
+
+%Titelseite
+	\include{kapitel/titel/titelseiteBeleg}
+
+%Inhaltsverzeichniss
+	%\renewcommand{\contentsname}{Table of Contents}
+	\tableofcontents
+	\printnomenclature
+	\listoffigures
+	%\renewcommand\listfigurename{list of figures}
+	
+	%\section*{list of figures}
+%\addcontentsline{toc}{section}{list of figures}
+\addcontentsline{toc}{section}{Abbildungsverzeichnis}
+%\addcontentsline{toc}\listoffigures
+	
+	\newpage
+	%\listoffigures
+	%\newpage
+
+	\pagenumbering{arabic}
+	\input{kapitel/01einleitung}
+	\input{kapitel/01open_ims/ims}
+	\input{kapitel/01open_ims/install}
+   	\input{kapitel/glosary}
+
+\end{document}
+

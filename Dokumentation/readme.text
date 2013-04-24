@@ -1,0 +1,20 @@
+Kurze Erklärung zu aufbau des Projektes!!
+
+Beleg.tex:
+Main Dokument
+
+*.bat, *.sh make :
+die skript sind dienen dem Verständnis was passiert und benötogt wird
+(wenn die vorhandennen Datein nicht auf eure Konfiguration passen bitte eigene Erstellen und in .gitignore hinzufügen,
+oder alles von der IDE machen lassen)
+
+Ordner Source:
+ist für skripte gedacht die als Listing in die doku sollen code oder config files
+
+Ordner Kapitel:
+enthlt die drei Themen bereiche nach dem wir unsere Teams aufgebaut haben.
+Organistation ist team intern
+
+Fragen und Anregungen zu noch besseren Organisation gern an mich.
+
+Gruß Franz

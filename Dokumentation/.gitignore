@@ -1,0 +1,9 @@
+q.tex
+*.aux
+*.ilg
+*.log
+*.nlo
+*.nls
+*.out
+*.pdf
+*.toc

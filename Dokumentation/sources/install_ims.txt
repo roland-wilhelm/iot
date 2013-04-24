@@ -1,0 +1,38 @@
+#!/bin/sh
+# installieren der tools
+apt-get install subversion ant1.7 openjdk-6-jdk aptitude ssh bison flex libxml2-dev  libghc6-curl-dev libghc-hsql-mysql-dev mysql-server mysql-workbench 
+# JAVA_HOME Setzen-> /usr/lib/jvm/java-6-openjdk-i386 in /etc/environment
+# Erstellen der ordner
+mkdir /opt/OpenIMSCore 
+cd /opt/OpenIMSCore
+mkdir FHoSS 
+# checkout der FHoSS
+svn checkout http://svn.berlios.de/svnroot/repos/openimscore/FHoSS/trunk FHoSS
+# checkout der ser_ims
+mkdir ser_ims 
+svn checkout http://svn.berlios.de/svnroot/repos/openimscore/ser_ims/trunk ser_ims
+# compile FHoSS mittels ant
+cd FHoSS 
+ant compile deploy 
+cd ..
+# installieren des Servers
+cd ser_ims 
+make install-libs all 
+# MySql restore /etc/mysql/my.cnf bind-adress andern !!!
+cd ..
+mysql -u root -pims < FHoSS/scripts/hss_db.sql 
+mysql -u root -pims < FHoSS/scripts/userdata.sql
+
+mysql -u root -pims < ser_ims/cfg/icscf.sql 
+
+# konfiguartion ims
+ser_ims/cfg/configurator.sh
+
+cp ser_ims/cfg/*.cfg . 
+cp ser_ims/cfg/*.xml . 
+cp ser_ims/cfg/*.sh .
+
+./pcscf.sh
+./icscf.sh
+./scscf.sh
+FHoSS/deploy/startup.sh

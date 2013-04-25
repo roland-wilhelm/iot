@@ -1,0 +1,15 @@
+mv /etc/rc5.d/S22network-manager  /etc/rc5.d/K22network-manager  // network manager vom autostart nehmen
+mv /etc/rc5.d/S85vpnagentd  /etc/rc5.d/K85vpnagentd
+nano /etc/inittab
+id:2:initdefault in id:5:initdefault ändern
+ifconfig eth0 up
+ifconfig eth2 up
+
+#einrichtung vpnc
+ cat /etc/vpnc/default.conf
+IPSec gateway ipsec.lrz.de
+IPSec ID mwnpda
+IPSec secret wDj2GLrZ
+
+Nutzung
+su vpnc user + pw

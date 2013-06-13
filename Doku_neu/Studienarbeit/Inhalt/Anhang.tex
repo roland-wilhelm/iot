@@ -1,0 +1,38 @@
+\section{Signalisierungsprotkoll}
+
+\ac{SIP} ist ein Signalisierungsprotkoll um eine Kommunikationssitzung zwischen zwei
+oder mehreren Benutzern als auch Geräten auf- und abzubauen sowie zu steuern.
+Die Signalisierung kann dabei in einem lokalen Netzwerk oder via Internet genutzt werden,
+um die Gegenstellen von der initierten Verbindungsabsicht \zb für einen Datenaustausch
+zu informieren.
+
+Bild OSI-Schichtenmodell, welche Vorteile besitzt SIP gegeüber anderen Protokollen.
+Gibt es \evtl Nachteile, welche?
+
+Wie sieht eine SIP-Session aus auf- und abbau sowie der eigentliche Datenaustausch.
+Wieso brauch ich eigentlich SIP, gibt es keine andere Möglichkeit?
+SIP klärt lediglich die Kommunikationsmodalitäten, für die Datenübertragung müssen 
+auf andere Protokolle zurückgegriffen werden.
+
+Bild typische SIP-Kommunikation
+
+Bestandteile einer typischen SIP-Infrastruktur sind:
+- SIP Clients
+- SIP Registrar Server
+- SIP Proxy Server
+- SIP Redirect Server
+TODO: Erläuterung der einzelnen Geräte
+
+PROBLEM IPv4: Durch die eingeschränkten IP-Adressen werden Lokale Netze hinter NAT-Routern 
+aufgebaut, die dann über den NAT-Router eine Verbindung ins Internet bekommen.
+Dadurch können SIP-Clients hinter NAT-Routern nicht direkt erreicht werden.
+Abhilfe durch STUN, UPnP, usw ...
+Oder besser, Verwendung von IPv6.
+
+SIP-Nachrichten können für die Heimautomatisierung genutzt werden.
+SIP MESSAGE PUT oder Get Aktionen (RFC 3261)
+SIP SUBSCRIBE und NOTIFY für spezielle Event Benachrichtigungen (RFC 3265)
+
+
+\section{Open IP Multimedia Subsystem}
+ 

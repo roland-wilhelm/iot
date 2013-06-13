@@ -1,0 +1,20 @@
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=1.00\textwidth]{Bilder/Pandaboard-Komponentediagramm1.pdf}
+\end{center}
+\caption{Komponentendiagramm: Gesamtübersicht}
+\label{abb:gesamtUebersicht}
+\end{figure}
+
+\begin{lstlisting}[caption={Initialisierung von Mutex und Condition Variable}\label{lst:initcondvar},captionpos=b]
+ret = pthread_mutex_init(&raum.raum_lock, NULL);
+	if(ret) {
+		fprintf(stderr, "error: Main - pthread_mutex_init.\n");
+		print_error_code(ret);}
+
+	ret = pthread_cond_init(&raum.raumaenderung, NULL);
+	if(ret) {
+		fprintf(stderr, "error: Main - pthread_cond_init.\n");
+		print_error_code(ret);}
+\end{lstlisting}

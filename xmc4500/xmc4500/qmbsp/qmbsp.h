@@ -13,7 +13,7 @@
 #include "Serial.h"
 #include "LED.h"
 //#include "ADC.h"
-
+#include "ETH_XMC45xx.h"
 
 /* defines for AOs */
 
@@ -52,7 +52,9 @@ void BSP_display_str(char *msg);
 void BSP_exit(void);	 
 void BSP_Init(void);
 void BSP_delay(int delay);
+void BSP_Info_msg(char* msg);
 
-
+#define IP_VERSION_NOT_SUPPORTED 0x00
+#define IP_MULI_CAST_CHECK       0x01
 
 #endif                                                             /* bsp_h */

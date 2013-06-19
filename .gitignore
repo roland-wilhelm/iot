@@ -14,3 +14,12 @@ obj/
 lst/
 searchplugins/
 *svn*/
+
+*.aux
+*.toc
+*.lof
+*.idx
+*.log
+*.lol
+*.lot
+*.out

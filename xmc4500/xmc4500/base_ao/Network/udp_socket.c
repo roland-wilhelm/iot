@@ -21,7 +21,7 @@ udp_socket* get_open_udp_socket(u16_t port)
 	return 0;
 }
 
-void drop_udp_packet(NewDataEvent* e, int udp_start)
+void drop_udp_packet(udp_datagram* dg)
 {
 	/*
 	Neighbor_AO* neighbor;
@@ -52,7 +52,7 @@ void socket_finalize_datagram(udp_socket* so, datagram* packet)
 //	packet->header.chksum = calc_chkSum(packet, uip_ip6addr, uip_ip6addr);
 }
 
-void 	datagram_set_dst_port(datagram* packet, u16_t port)
+void datagram_set_dst_port(datagram* packet, u16_t port)
 {
 	packet->header.dst_port = port;
 }
@@ -75,11 +75,55 @@ void ipv6_get_srcAddr(uip_ip6addr_t* target, struct uip_tcpip_hdr* ip_hdr)
 	}
 }
 
-void double_echo(NewDataEvent* e, int udp_start)
+u16_t udp_datagram_get_payload(udp_datagram* dg, char* c)
+{
+	memcpy(c, &(dg->datagram.payload), dg->len);
+	return udp_datagram_get_payload_length(dg);
+}
+
+u16_t udp_datagram_get_payload_length(udp_datagram* dg)
+{
+	return dg->len;
+}
+
+u16_t udp_datagram_get_port(udp_datagram* dg)
+{
+	return dg->port;
+}
+
+void udp_datagram_get_address(udp_datagram* dg, uip_ipaddr_t* t)
+{
+	memcpy(t, &dg->address, sizeof(uip_ipaddr_t));
+}
+
+void double_echo(udp_socket* so, udp_datagram* dg)
 {
 	//simple Echo
 	//but sends the reply twice
-	udp_socket* so;
+	char dummy[UDP_DATAGRAM_SIZE];
+	char buffer[1024];
+	u16_t len;
+	udp_datagram* toSend;
+	uip_ipaddr_t addr;
+	u16_t port;
+	
+	dummy[UDP_DATAGRAM_SIZE - 1] = 0;
+	buffer[1024 - 1] = 0;
+	toSend = (udp_datagram*) dummy;
+	
+	port = udp_datagram_get_port(dg);
+	udp_datagram_get_address(dg, &addr);
+	len = udp_datagram_get_payload(dg, buffer);
+	
+	memcpy(&buffer[len], buffer, len);
+	
+	udp_datagram_set_address(toSend, &addr);
+	udp_datagram_set_port(toSend, port);
+	udp_datagram_set_payload(toSend, buffer, len * 2);
+	
+	udp_socket_send_datagram(so, toSend);
+	
+/*	udp_socket* so;
 	datagram* incUdpPacket;
 	udp_header* incUdp_hdr;
 	uip_ip6addr_t addr;
@@ -120,20 +164,54 @@ void double_echo(NewDataEvent* e, int udp_start)
 	udp_datagram_set_payload(toSend, incUdpPacket->payload, (len - UDP_HEADER_SIZE) * 2);
 	
 	udp_socket_send_datagram(so, toSend);
-	
+	*/
+}
+
+void reformat_ipv6_addr(uip_ip6addr_t* target, uip_ip6addr_t* source)
+{
+	int i = 0; //loop counter
+	int size = sizeof(uip_ip6addr_t) / sizeof(u16_t);
+	u16_t* t = (u16_t*) target;
+	char* s = (char*) source;
+	for (i = 0; i < size; i++)
+	{
+		t[i] = (s[i << 1] << 8) + s[(i << 1) + 1];
+	}
 }
 
 void handle_inc_udp(NewDataEvent* e, int udp_start)
 {
-	int port = 0;
-	udp_socket* socket;
+	u16_t port = 0;
+	u16_t length = 0;
+	uip_ipaddr_t addr;
+	udp_socket* so;
 	datagram* packet = (datagram *) &(e->buf)[udp_start];
+	struct uip_tcpip_hdr* ip_hdr = (struct uip_tcpip_hdr*) &(e->buf[UIP_LLH_LEN]);
+	char dummy[UDP_DATAGRAM_SIZE];
+	udp_datagram* dg;
+	dummy[UDP_DATAGRAM_SIZE - 1] = 0;
+	
+	dg = (udp_datagram*) dummy;
+	
 	port = packet->header.dst_port;
 	port = ((port << 8) & 0xff00) + ((port >> 8) & 0x00ff);
+	so = get_open_udp_socket(port);
 	
-	socket = get_open_udp_socket((u16_t) port);
-	if (socket) socket->function(e, udp_start, socket->arguments);
-	else drop_udp_packet(e, udp_start);
+	port = packet->header.src_port;
+	port = ((port << 8) & 0xff00) + ((port >> 8) & 0x00ff);
+	
+	length = packet->header.length;
+	length = ((length << 8) & 0xff00) + ((length >> 8) & 0x00ff);
+	length = length - UDP_HEADER_SIZE;
+	
+	reformat_ipv6_addr(&addr, &ip_hdr->srcipaddr);
+	
+	udp_datagram_set_payload(dg, packet->payload, length);
+	udp_datagram_set_port(dg, port);
+	udp_datagram_set_address(dg, &addr);
+	
+	if (so) so->function(so, dg, so->arguments);
+	else drop_udp_packet(dg);
 }
 
 void udp_datagram_set_payload(udp_datagram* udp_dg, char* data, u16_t length)
@@ -280,7 +358,7 @@ void udp_socket_send_datagram(udp_socket* so, udp_datagram* dg)
 	//QF_gc((QEvent*) e);
 }
 
-udp_socket* udp_open_socket (int port, functiontype f, void* args) {
+udp_socket* udp_open_socket (int port, udp_observer f, void* args) {
 	open_udp_socket_list_element * socketList = udp_socket_list;
 	open_udp_socket_list_element * newListElement = 0;
 	udp_socket* so = get_open_udp_socket(port);

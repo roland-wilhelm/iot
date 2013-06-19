@@ -919,6 +919,11 @@
               <FileType>1</FileType>
               <FilePath>.\Network\md5.c</FilePath>
             </File>
+            <File>
+              <FileName>customHeap.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Network\customHeap.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

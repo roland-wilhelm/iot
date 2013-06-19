@@ -13,6 +13,12 @@
 
 /*BSP Init for the XMC-4500 */
 
+void BSP_uip_app_call(void) {
+
+	 // dummy call for the uip Stack -.((( dumb eh!
+
+}
+
 void BSP_Init( ) {
 
 	  SysTick_Config(SystemCoreClock/100);       /* Generate interrupt each 10 ms */
@@ -35,6 +41,10 @@ void BSP_LED_Toggle(int led){
 }
 
 
+void BSP_Info_msg(char* msg) {
+
+//   TRACE_INFO("-uip_AO- %s\n\r", msg);
+}
 
 #ifdef QM
 

@@ -20,7 +20,7 @@
 
 #pragma import(__use_no_semihosting_swi)
 
-#define USE_JLINK_PRINTF
+#define USE_JLINK_PRINTF  1
 
 #ifdef USE_JLINK_PRINTF
 	#define ITM_Port8(n)	(* ((volatile unsigned char *) (0xE0000000+4*n)))

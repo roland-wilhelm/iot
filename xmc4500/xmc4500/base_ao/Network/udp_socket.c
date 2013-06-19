@@ -6,71 +6,7 @@
 #include "uip.h"
 #include <string.h>
 #include <stdlib.h>
-
-unsigned int MY_HEAP[MY_HEAP_SIZE / sizeof(int)] = {(MY_HEAP_SIZE / sizeof(int))}; //4k
-
-void* my_malloc(unsigned int i)
-{
-	unsigned int pointer = 0;
-	unsigned int next = 0;
-	if (i > MY_HEAP_SIZE - sizeof(int)) return 0;
-	do {
-		pointer = next;
-		next = MY_HEAP[pointer];
-		if (next & ~USE_MASK)
-		{
-			if (((next - pointer - 1) * 8) >= i)
-			{
-				MY_HEAP[pointer] = pointer + 1 + (i + 7)/8;
-				if (MY_HEAP[pointer] != next) MY_HEAP[MY_HEAP[pointer]] = next;
-				MY_HEAP[pointer] = MY_HEAP[pointer] | USE_MASK;
-				return &MY_HEAP[pointer];
-			}
-		} else
-		{
-			next = next & ~USE_MASK;
-		}
-	} while (next < (MY_HEAP_SIZE / sizeof(int)));
-	return 0;
-}
-
-void my_free(void* i)
-{
-	int position;
-	int last;
-	int next;
-	
-	last = 0;
-	position = 0;
-	next = 0;
-	
-	
-	do
-	{
-		last = position;
-		position = next;
-		next = MY_HEAP[position & ~USE_MASK];
-		
-		if (((int) &MY_HEAP[position & ~USE_MASK]) == ((int) i))
-		{
-			MY_HEAP[position & ~USE_MASK] = next & ~USE_MASK;
-			if (!(last & ~USE_MASK))
-			{
-				MY_HEAP[last] = next & ~USE_MASK;
-				position = last;
-			}
-			if (!(next & ~USE_MASK))
-			{
-				MY_HEAP[position & ~USE_MASK] = 
-						(MY_HEAP[position & ~USE_MASK] & USE_MASK) & 
-							MY_HEAP[next & ~USE_MASK];
-			}				
-		}		
-	} while (((int) next) < (((int) & MY_HEAP[0]) + MY_HEAP_SIZE));
-}
-
-
-
+#include "customHeap.h"
 
 open_udp_socket_list_element *udp_socket_list = 0;
 
@@ -129,7 +65,7 @@ void udp_datagram_set_address(udp_datagram* dg, uip_ipaddr_t* addr)
 void ipv6_get_srcAddr(uip_ip6addr_t* target, struct uip_tcpip_hdr* ip_hdr)
 {
 	char* t = (char*) target;
-	char* s = (char*) ip_hdr;
+	char* s = (char*) & ip_hdr->srcipaddr;
 	int i = 0; //loop counter
 	
 	for (i = 0; i < 8; ++i)
@@ -139,9 +75,10 @@ void ipv6_get_srcAddr(uip_ip6addr_t* target, struct uip_tcpip_hdr* ip_hdr)
 	}
 }
 
-void simple_echo(NewDataEvent* e, int udp_start)
+void double_echo(NewDataEvent* e, int udp_start)
 {
 	//simple Echo
+	//but sends the reply twice
 	udp_socket* so;
 	datagram* incUdpPacket;
 	udp_header* incUdp_hdr;
@@ -178,88 +115,13 @@ void simple_echo(NewDataEvent* e, int udp_start)
 	udp_datagram_set_address(toSend, &addr);
 	udp_datagram_set_port(toSend, port);
 	
-	udp_datagram_set_payload(toSend, incUdpPacket->payload, len - UDP_HEADER_SIZE);
+	memcpy(&((incUdpPacket->payload)[len - UDP_HEADER_SIZE]), incUdpPacket->payload, len - UDP_HEADER_SIZE);
+	
+	udp_datagram_set_payload(toSend, incUdpPacket->payload, (len - UDP_HEADER_SIZE) * 2);
 	
 	udp_socket_send_datagram(so, toSend);
 	
 }
-
-/*
-void simple_echo(NewDataEvent* e, int udp_start)
-{
-	NewDataEvent zzzz;
-	//simple echo as test
-	//datagram* incUdpPacket;
-	//datagram* outUdpPacket;
-	//udp_header* udpHeader;
-	//struct uip_tcpip_hdr* tcpip_hdr;
-	//Neighbor_AO* neighbor;
-	//udp_socket* so;
-	char response[38] = "Dies ist eine automatisierte Antwort!";
-	int responseLength = 37;
-	
-	static QEvent const pr_sig = { PACKET_RECEIVED_SIG};
-	static QEvent const ps_sig = { PACKET_SENT_SIG};
-	
-	tcpip_hdr = (struct uip_tcpip_hdr *) &e->buf[UIP_LLH_LEN];
-	incUdpPacket = (datagram *) &(e->buf[udp_start]);
-	udpHeader = &(incUdpPacket->header);
-	so = get_open_udp_socket(udpHeader->dst_port);
-	
-	tcpip_hdr = (struct uip_tcpip_hdr *) &zzzz.buf[UIP_LLH_LEN];
-	outUdpPacket = (datagram *) &(zzzz.buf[udp_start]);
-	udpHeader = &(outUdpPacket->header);
-	
-	
-	//neighbor = uip_nd6_nbrcache_lookup(&tcpip_hdr->srcipaddr);
-	//if (NULL != neighbor)
-	//	QActive_postFIFO((QActive *)neighbor, &pr_sig);
-	
-	
-	//switch_eth_addr(e);
-	
-	set_dst_mac_addr(&zzzz, *((uip_eth_addr *) e->buf));
-	memcpy(&zzzz.buf[12], &e->buf[12], 2);
-	
-//	tcpip_hdr->vtc = 0x60;
-//	tcpip_hdr->tcflow = 0;
-//	tcpip_hdr->flow = 0;
-//	tcpip_hdr->len[0] = (u8_t) ((responseLength + UDP_HEADER_SIZE) >> 8);
-//	tcpip_hdr->len[1] = (u8_t) (responseLength + UDP_HEADER_SIZE);
-//	tcpip_hdr->proto = (u8_t) 17;
-//	tcpip_hdr->ttl = (u8_t) 128;
-	
-	set_up_ipv6_hdr(tcpip_hdr, responseLength + UDP_HEADER_SIZE, UDP_PROTOCOLL_NR, );
-	
-	datagram_set_dst_port(outUdpPacket, inUdpPacket->Header.src_port);
-	datagram_set_payload(outUdpPacket, response, responseLength);
-	
-	
-	
-	//datagram_set_dst_port(udpPacket, udpHeader->src_port);
-	//datagram_set_payload(udpPacket, response, responseLength);
-	//tcpip_hdr->len[0] = (u8_t) ((responseLength + UDP_HEADER_SIZE) >> 8);
-	//tcpip_hdr->len[1] = (u8_t) (responseLength + UDP_HEADER_SIZE);
-	//e->len = responseLength + UDP_HEADER_SIZE + UIP_IPH_LEN + ETH_HEADER_LEN;
-	
-	zzzz.len = responseLength + UDP_HEADER_SIZE + UIP_IPH_LEN + ETH_HEADER_LEN;
-	
-	socket_finalize_datagram(so, udpPacket);
-	
-	memcpy(&tcpip_hdr->destipaddr, &tcpip_hdr->srcipaddr, sizeof(uip_ipaddr_t));
-	memcpy(&tcpip_hdr->srcipaddr, &uip_hostaddr, sizeof(uip_ipaddr_t));
-	
-	e->super.sig = SEND_DATA_SIG;
-	
-
-	//zzzz.super.sig = SEND_DATA_SIG;
-	//zzzz.
-	
-	
-	QF_publish((QEvent *) e);
-	//QActive_postFIFO((QActive *)neighbor, &ps_sig);
-}
-*/
 
 void handle_inc_udp(NewDataEvent* e, int udp_start)
 {
@@ -295,6 +157,10 @@ void setup_eth_hdr(NewDataEvent* e, struct uip_eth_addr* dst, u16_t protocoll_nr
 
 void setup_IPv6_hdr(struct uip_tcpip_hdr* ip_hdr, int payload_len, u8_t payload_prot, uip_ipaddr_t* src, uip_ipaddr_t* dst)
 {
+	char* d;
+	char* s;
+	int i = 0;
+	
 	ip_hdr->vtc = 0x60;
 	ip_hdr->tcflow = 0;
 	ip_hdr->flow = 0;
@@ -302,8 +168,26 @@ void setup_IPv6_hdr(struct uip_tcpip_hdr* ip_hdr, int payload_len, u8_t payload_
 	ip_hdr->len[1] = ((u8_t*) &(payload_len))[0];
 	ip_hdr->proto = (u8_t) payload_prot;
 	ip_hdr->ttl = (u8_t) 128;
-	memcpy(&ip_hdr->srcipaddr, src, sizeof(uip_ipaddr_t));
-	memcpy(&ip_hdr->destipaddr, dst, sizeof(uip_ipaddr_t));
+	
+	s = (char*) src;
+	d = (char*) &ip_hdr->srcipaddr;
+	
+	for (i = 0; i < sizeof(uip_ipaddr_t); i = i + 2)
+	{
+		d[i] = s[i + 1];
+		d[i + 1] = s[i];
+	}
+	
+	s = (char*) dst;
+	d = (char*) &ip_hdr->destipaddr;
+	
+	for (i = 0; i < sizeof(uip_ipaddr_t); i = i + 2)
+	{
+		d[i] = s[i + 1];
+		d[i + 1] = s[i];
+	}
+	//memcpy(&ip_hdr->srcipaddr, src, sizeof(uip_ipaddr_t));
+	//memcpy(&ip_hdr->destipaddr, dst, sizeof(uip_ipaddr_t));
 }
 
 u16_t calc_UPD_chksum(uip_ipaddr_t* srcIP, uip_ipaddr_t* dstIP, const u16_t len, const datagram* dataG)
@@ -311,10 +195,10 @@ u16_t calc_UPD_chksum(uip_ipaddr_t* srcIP, uip_ipaddr_t* dstIP, const u16_t len,
 	long chksum = 0;
 	int i = 0; // loop counter
 	
-	for (i = 0; i < 8; i = i + 2)
+	for (i = 0; i < 8; i = i + 1)
 	{
-		chksum = chksum + (((u16_t*) srcIP)[i]) << 8;
-		chksum = chksum + ((u16_t*) dstIP)[i + 1];
+		chksum = chksum + ((u16_t*) srcIP)[i];
+		chksum = chksum + ((u16_t*) dstIP)[i];
 	}
 	chksum = chksum + UDP_PROTOCOLL_NR;
 	chksum = chksum + len;
@@ -333,6 +217,8 @@ u16_t calc_UPD_chksum(uip_ipaddr_t* srcIP, uip_ipaddr_t* dstIP, const u16_t len,
 		chksum = (chksum & 0xffff) + (chksum >> 16);
 	}
 	
+	chksum = chksum ^ 0xffff;
+	
 	return (u16_t) chksum;
 }
 
@@ -341,6 +227,7 @@ void preset_UDP_hdr(udp_header* hdr, u16_t src, u16_t dst, u16_t len)
 	hdr->src_port = (((u8_t) src) << 8) + ((u8_t*) &src)[1];
 	hdr->dst_port = (((u8_t) dst) << 8) + ((u8_t*) &dst)[1];
 	hdr->length = (((u8_t) len) << 8) + ((u8_t*) &len)[1];
+	hdr->chksum = 0;
 }
 
 void set_UDP_chksum(udp_header* hdr, u16_t chksum)
@@ -359,7 +246,9 @@ void udp_socket_send_datagram(udp_socket* so, udp_datagram* dg)
 	u16_t srcPort;
 	u16_t dstPort;
 	Neighbor_AO* neighbor;
-	//int i = 0; //loop counter	
+	
+	static QEvent const pr_sig = { PACKET_RECEIVED_SIG};
+	static QEvent const ps_sig = { PACKET_SENT_SIG};
 	
 	e = Q_NEW(NewDataEvent, SEND_DATA_SIG);
 	ip_hdr = (struct uip_tcpip_hdr *) &e->buf[UIP_LLH_LEN];
@@ -369,24 +258,26 @@ void udp_socket_send_datagram(udp_socket* so, udp_datagram* dg)
 	srcPort = so->port;
 	dstIP = &dg->address;
 	dstPort = dg->port;
-	neighbor = uip_nd6_nbrcache_lookup(dstIP);
+	
+	setup_IPv6_hdr(ip_hdr, dg->len + UDP_HEADER_SIZE, UDP_PROTOCOLL_NR, srcIP, dstIP);
+	
+	neighbor = uip_nd6_nbrcache_lookup(&ip_hdr->destipaddr);
+	
+	QActive_postFIFO((QActive *)neighbor, &pr_sig);
 	
 	setup_eth_hdr(e, &neighbor->lladdr, IPV6_PROTOCOLL_NR);
-	setup_IPv6_hdr(ip_hdr, dg->len + UDP_HEADER_SIZE, UDP_PROTOCOLL_NR, srcIP, dstIP);
-	memcpy(dataG->payload, dg->datagram.payload, dg->len); //copy payload
-//	for (i = 0; i < dg->len; i++)
-//	{
-//		dataG->payload[i] = dg->datagram.payload[i];
-//	}
+	
+	memcpy(dataG->payload, dg->datagram.payload, dg->len);
 	
 	preset_UDP_hdr(udp_hdr, srcPort, dstPort, dg->len + UDP_HEADER_SIZE);
-	set_UDP_chksum(udp_hdr, calc_UPD_chksum(srcIP, dstIP, dg->len, dataG));
+	set_UDP_chksum(udp_hdr, calc_UPD_chksum(srcIP, dstIP, dg->len + UDP_HEADER_SIZE, dataG));
 	
 	e->len = dg->len + UDP_HEADER_SIZE + UIP_IPH_LEN + ETH_HEADER_LEN;
 	e->super.sig = SEND_DATA_SIG;
 	
 	QF_publish((QEvent *) e);
-	QF_gc((QEvent*) e);
+	QActive_postFIFO((QActive *)neighbor, &ps_sig);
+	//QF_gc((QEvent*) e);
 }
 
 udp_socket* udp_open_socket (int port, functiontype f, void* args) {
@@ -395,7 +286,7 @@ udp_socket* udp_open_socket (int port, functiontype f, void* args) {
 	udp_socket* so = get_open_udp_socket(port);
 	if (so) return 0;
 
-	newListElement = my_malloc(OPEN_UDP_SOCKET_LIST_ELEMENT_SIZE);
+	newListElement = cst_malloc(OPEN_UDP_SOCKET_LIST_ELEMENT_SIZE);
 	newListElement->open_socket.port = port;
 	newListElement->open_socket.function = f;
 	newListElement->open_socket.arguments = args;
@@ -408,14 +299,39 @@ udp_socket* udp_open_socket (int port, functiontype f, void* args) {
 
 void udp_close_socket (udp_socket* socket)
 {
-	//todo release memory
+	open_udp_socket_list_element * last = udp_socket_list;
+	open_udp_socket_list_element * current = udp_socket_list;
+	
+	//no open sockets
+	if (udp_socket_list == 0) return;
+	
+	//if the first socket in list is to be closed
+	if (udp_socket_list->open_socket.port == socket->port && udp_socket_list->open_socket.address == socket->address)
+	{
+		udp_socket_list = (open_udp_socket_list_element *) udp_socket_list->next;
+		cst_free(current);
+	}
+	
+	//if any other socket in list is to be closed
+	current = (open_udp_socket_list_element *) current->next;
+	while (current)
+	{
+		if (current->open_socket.port == socket->port && current-> open_socket.address == socket->address)
+		{
+			last->next = current->next;
+			cst_free(current);
+			return;
+		}
+	}
 }
 
 
-
+// for testing purposes
 void udp_setup_test_port(int port)
 {
-	udp_open_socket(9999, &simple_echo, 0);
+	udp_open_socket(3333, &double_echo, 0);
+	udp_open_socket(19999, &double_echo, 0);
+	udp_open_socket(9999, &double_echo, 0);
 }
 
 

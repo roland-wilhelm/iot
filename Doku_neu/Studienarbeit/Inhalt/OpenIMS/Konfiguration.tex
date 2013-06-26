@@ -1,2 +1,65 @@
 \section{Installation und Konfiguration}
 \label{sec:openims_config}
+\todo{Rechtschreibfehler in der ganzen Section}
+
+\subsection{Die Komponenten}
+Auf der fertig eingerichteten Infrastruktur wurden die verschiedenen IMS Komponenten nach den Schritten die im offiziellen Install Guide auf openimscore.org erklärt werden\footnote{\url{http://www.openimscore.org/installation_guide}} instaliert.
+Da fertige Debian Pakete bereit gestellt wurden, entfielen die Schritte zwei und drei.
+
+Die Komponenten Wurden wie folgt verteilt:
+
+\subsubsection{Home Subscriber Server}
+Der HSS ist auf der Maschiene \lstinline{hss} instaliert, ausserdem ein MySQL Server der für den Betrieb dess HSS benötigt wird und das neueste JDK.
+
+\subsubsection{Weboberfläche}
+
+Der HSS kann über eine Weboberfläche konfiguriert werden, welche auf dem Apache Tomcat läuft und auf eine weitere MySQL Datenbank erfordert.
+Diese wurde ebenfalls auf der Maschine \lstinline{hss} installiert.
+
+Wenn in der Datei  \lstinline{/opt/OpenIMSCore/FHoSS/config/hhss.properties} als \lstinline{isten-Interface} eine IPv6 Adresse eingetragen ist, wird eine \lstinline{javax.management.MalformedObjectNameException(INVALID CHARACTERS ":")} geworfen. Um dieses Problem zu umgehen, wurde die IPv4 Adresse eingetragen und eine neuer DNS Eintrag \lstinline{hss4} erstellt der auf die IPv4 Adresse des \lstinline{hss} zeigt.
+Das Webinterface ist unter der Adresse \url{http://hss4:8080} erreichbar. 
+Benutzer für das WebInterface werden in der Datei \lstinline{/opt/OpenIMSCore/FHoSS/tomcat/conf/tomcat-users.xml} verwaltet. Die folgenden sind bisher vorhanden:
+\begin{description}
+\item [hss] mit Passwort \lstinline{hss} hat die Rolle \lstinline{Benutzer}
+\item [hssAdmin] mit dem Passwort \lstinline{hss} hat die Rolle \lstinline{Admin}
+\end{description}
+\todo{stimmt das noch}
+
+Das Tool zur Konfiguration des HSS, \lstinline{dpkg-reconfigure openimscore-fhoss} darf nicht mehr verwendet werden, da es die Resolv Einstellungen verändert und die Weboberfläche dann nicht mehr erreichbar ist.
+
+\subsection{Interrogation-CSCF}
+Der Interrogator wurde auf der Maschiene \lstinline{icscf} installiert. Er benötigt für den Betrieb einen MySQL Server der lokal installiert wurde.
+\lstinline{dpkg-reconfigure openimscore-icscf} kann für weitere Konfiguration verwendet werden.
+
+\subsection{Server-CSCF}
+Die Serving Komponente wurde auf dem \lstinline{scscf} installiert.
+\lstinline{dpkg-reconfigure openimscore-scscf} kann für weitere Konfiguration verwendet werden.
+
+\subsection{Proxy-CSCF}
+Ein Proxy ist auf dem  \lstinline{pcscf} installiert. dabei gab es nur einen kleineren Fehler, im Debian Pakte hat die Datei \lstinline{/usr/lib/ser/emerg_info.xml} gefehlt, diese wurde aus dem Upstream Repository kopiert.
+Das Tool \lstinline{dpkg-reconfigure openimscore-pcscf} kann zur weiteren Konfiguration verwendet werden.
+
+\subsection{Demo und Test}
+
+\subsubsection{myMonster}
+Das Frauenhofer Institut stellt eine VideoChat Anwendung bereit, die auf ein IMS als Nutzerverzeichniss zurückgreift.
+Zum testen der einzelnen Services wurde der Client \lstinline{monster-0.9.25} verwendet.
+
+Über IPv6 kann der Proxy nicht erreicht werden \lstinline{Netzwerk nicht erreichbar}.
+In den logs des Proxys wird der Kontakt \lstinline{C: <0://2001:4>} angezeigt obwohl dort eine vollständige IPv6 Adresse stehen sollte.
+
+Wird das gesamte Labor Netzwerk auf IPv4 Betrieb umgestellt, funktioniert sowohl das An- und Abmelden, als auch das verschicken einer Nachricht. Deaktiviert man ipsec in den Einstellungen des myMonster Clients, sieht man mit wireshark, dass diese Nachrichten als SIP-Notify versendet werden. Da im Labor keine Headsets oder Webcams verfügbar waren, konnte Videochat nicht getestet werden.
+
+Mit dem älteren Client "monster-0.9.8" funktioniert An- und Abmeldung, jedoch nicht das versenden von Nachrichten. Die Ursache hierfür wurde nicht gefunden.
+
+\subsubsection{Boghe IMS Client}
+Ähnlich dem myMonster Client erlaubt der Boghe IMS Client v2.0.112.744\footnote{\url{https://code.google.com/p/boghe/downloads/list}}
+Nachrichten und Videochat, allerdings nur unter Windows. Ein Test mit vollständigem IPv6 war erfolgreich und zeigt, dass das IMS Betriebsbereit ist.
+
+\subsection{Benutzung}
+
+Ausser dem Hinzufügen neuer Teilnehmer muss das IMS System nicht mehr verändert werden. Neue Benutzer werden wie folgt angelegt:
+
+Screenshot WebOberfläche
+Parameter erklähren
+\todo{schreiben}

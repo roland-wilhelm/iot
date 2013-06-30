@@ -1,0 +1,175 @@
+\section{Internet Protocol Security (IPsec)}
+
+Seit Version 6 des Internet Protokolls (IPv6) ist die Unterstützung für die “Internet Protocol Security” (IPsec)-Mechanismen fest im Standard integriert. Allerdings ist die von der “Internet Engineering Task Force” (IETF) ursprünglich als verpflichtend geforderte Implementierung der IPsec-Archi\-tek\-tur durch einen IPv6-Netzknoten auf eine Empfehlung herabgestuft worden. (vgl. \cite{RFC6434})
+
+Auch das “3rd Generation Partnership Project“ (3GPP) schreibt in ihrer Spezifikation des “IP Multimedia Subsystems” (IMS) die Unterstützung für Teile von IPsec bzw. eine abgewandelte Form desselben vor. (vgl. \cite{TS33.210})
+
+\subsection{Sicherheitsziele}
+IPsec ist eine Sammlung von Protokollen, die in ihrer Gesamtheit einen gesicherten Transport von IP-basierten Nachrichten ermöglichen. Hierbei werden die Sicherheitsziele Authentizität, Integrität und Vertraulichkeit verfolgt.
+
+\paragraph{Authentizität}
+Die Authentizität bezieht sich auf den Datenursprung. Es soll sichergestellt werden, dass die Nachricht wirklich aus der Quelle stammt, die als Absender im Kopf eines IP-Pakets angegeben ist.
+
+Wie auch beim Versenden eines Briefs kann bei Verwendung von IP als Absender eine beliebige Angabe getätigt werden, wodurch sich ein Dritter, der die Nachricht ursprünglich sendet, auf einfache Weise als der Sender, den der Empfänger erwartet, ausgeben kann. Auf die erfolgreiche Zustellung des Briefs bzw. der Nachricht hat dies zunächst keinen Einfluss.
+
+\paragraph{Integrität}
+Eine IP-basierte Nachricht, ebenso wie ein Brief, wird während der Zustellung über mehrere Stellen gereicht. Hierbei kann es sowohl unbeabsichtigt, als auch beabsichtigt zu Beschädigung bzw. Modifikation des Inhalts kommen.
+
+Ziel der Integrität ist die Unversehrtheit der Nachricht. Die Änderung des Inhalts zu verhindern ist allerdings technisch kaum umsetzbar. Daher muss dies zumindest erkannt und entsprechend reagiert werden.
+
+\paragraph{Vertraulichkeit}
+Selbst wenn eine Nachricht bzw. ein Brief vom korrekten Sender unversehrt zum Empfänger gelangt ist, wurde noch nicht sichergestellt, dass der Inhalt während des Transports von einem unbefugten Dritten gelesen wurde. Dies wird vom Sicherheitsziel Vertraulichkeit gefordert.
+
+\subsection{SPD, SAD und Key Exchange}
+Die Umsetzung dieser Ziele besieren bei IPsec in erster Linie auf der Verwendung von gemeinsamen Geheimnissen (shared secrets) des Senders und Empfängers, die jeweils von den einzelnen Protokollen angewendet werden.
+
+Welches Geheimnis und welche Protokolle sowie Algorithmen für eine bestimmte Übertragungsart angewendet werden, sind in der sogenannten “Security Policy Database” (SPD) hinterlegt. Die Gültigkeit des Inhalts dieser Datenbank ist zeitlich nicht beschränkt und wird im Allgemeinen durch IPsec-Mechanismen nicht geändert.
+
+Basierend auf den in der SPD enthaltenen Informationen wird zu Beginn einer jeden Übertragungssitzung zwischen den beiden Kommunikationspartnern in der Regel ein spezieller Sitzungsschlüssel sowie Daten, die von den weiteren Protokollen benötigt werden, ausgehandelt. Das Ergebnis wird in der sogenannten “Security Association Database” (SAD) hinterlegt und ist nur für die jeweilige Sitzung und während der Dauer derselben gültig.
+
+Das Protokoll das zur Einigung genutzt wird, wurde von der IETF auf das “Internet Key Exchange”-Protokoll in Version 1 (IKEv1) bzw. Version 2 (IKEv2) spezifiziert. Die IMS-Spezifikation des 3GPP weicht an dieser Stelle von der allgemeinen Spezifikation von IPsec ab. Sie schreibt ein auf dem “Session Initiation Protocol” (SIP) aufbauendes “Authentication and Key Agreement” (AKA) vor. (vgl. \cite{S.S0086-B})
+
+\subsection{AH und ESP}
+Zur eigentlichen Datenübertragung werden dann die Protokolle “Authentication Header” (AH) und “Encapsulating Security Payload” (ESP) eingesetzt. Diese spezifizieren jeweils ein Paketformat, das im sogenannten Transport-Modus hinter dem IP-Header bzw. bestimmten Erweiterungs-Headern der ursprünglichen Nachricht eingefügt wird. Für das “Protocol”-Feld (IPv4) bzw. “Next Header”-Feld (IPv6) des IP-Pakets sind hierfür speziell die Werte 51 (AH) und 50 (ESP) vorgesehen. Die Nutzdaten, also die Header und Nutzdaten der Protokolle der höheren Schichten, folgen dann.
+
+Im Tunnel-Modus wird hingegen ein neues IP-Paket aufgebaut, in dem wiederum AH bzw. ESP hinter dem IP-Header eingefügt wird. Alls jeweilige Nutzdaten wird allerdings die ursprüngliche IP-Nachricht komplett, also mit allen Headern und Nutzdaten aller Protokollebenen, und unverändert eingefügt. Hiermit lassen sich bestimmte Hindernisse auf dem Übertragungsweg überwinden, die sonst einen fehlerfreien Betrieb von IPsec behindern oder gar ganz verhindern. Außerdem lässt sich eine höhere Sicherheit erzielen, da die eigentliche Kommunikation versteckt ist, was insbesondere bei Verschlüsselung dieser Nutzdaten der Fall ist.
+
+\subsubsection{Authentication Header}
+Der Authentication Header dient dazu, Authentizität und Integrität der Nachricht nachzuweisen. Er enthält, neben Informationen zu der direkt folgenden Payload und zu der aktuellen Übertragungssitzung, zu diesem Zweck vor allem eine Prüfsumme, die über die relevanten Daten des IP-Pakets gebildet wird. Im Detail ist der AH wie folgt aufgebaut:
+
+\begin{figure}[!h]
+	\small
+    \begin{verbatim}
+  0                   1                   2                   3
+  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+| Next Header   |  Payload Len  |          RESERVED             |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                 Security Parameters Index (SPI)               |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                    Sequence Number Field                      |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                                                               |
++                Integrity Check Value-ICV (variable)           |
+|                                                               |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	\end{verbatim}
+    \caption{Struktur des IPsec Authentication Headers}
+\end{figure}
+
+Die Felder “Next Header” und “Payload Length” geben Aufschluss da\-rü\-ber, von welchem Protokoll der Header stammt, der an erster Stelle in der Payload, die direkt auf den AH folgt, zu finden ist und wie lang diese Nutzdaten insgesamt sind.
+
+Der Wert des Feldes “Security Parameters Index (SPI)” versteht sich als Identifikation des Eintrags, der der aktuellen Übertragungssitzung zugehörig ist, in der SAD, der Datenbank der Sitzungs-spezifisch ausgehandelten Sicherheitsmechanismen. Dies dient dem Empfänger das IP-Paket einer bestimmten Sitzung zuordnen zu können.
+
+Das “Sequence Number Field” enthält den Wert eines Zählers, der bei Aufbau einer Übertragungssitzung mit 0 initialisiert wird und für jedes zu übertragende Paket inkrementiert wird. Ist der Zähler an der oberen Grenze des Wertebereichs angelangt, so muss die aktuelle Sitzung beendet und eine neue begonnen werden, sofern noch weitere Daten zu übertragen sind. Außerdem lassen sich mit diesem Zähler Replay-Attacken abwehren, also Attacken, bei denen ein Angreifer durch “Mitlauschen” zuvor aufgezeichnete Nachrichten sendet, um eine fremde Identität vorzutäuschen.
+
+Schließlich enthält der AH im Feld “Integrity Check Value (ICV)” eine Prüfsumme, die mittels cryptografischer Hash-Funktion erstellt wird. Da hierfür zur Erstellung sowie Prüfung jeweils ein gemeinsamer Schlüssel benötigt wird, ist die Authentizität des Absenders gewährleistet. In die Prüfsummenbildung fließen alle Felder des IP-Headers (sofern diese während des Übertragungswegs nicht geändert werden müssen), die übrigen Felder des AH sowie die gesamten Nutzdaten mit ein. Damit wird die Integrität fast der gesamten Nachricht sichergestellt.
+(vgl. \cite{RFC4302})
+
+\subsubsection{Encapsulating Security Payload}
+Zusätzlich zu Authentizität und Integrität stellt die Encapsulating Security Payload die Vertraulichkeit der Nachricht sicher. Es werden die gleichen Informationen erzeugt und eingefügt, die auch beim AH vorhanden sind. Aber zudem werden die Nutzdaten verschlüsselt und zwischen Sitzungsinformation und Prüfsumme eingefügt.
+
+\begin{figure}[!ht]
+	\small
+    \begin{verbatim}
+  0                   1                   2                   3
+  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|               Security Parameters Index (SPI)                 |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                      Sequence Number                          |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+--
+|                    IV (optional)                              |^p
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+|a
+|                    Rest of Payload Data  (variable)           ||y
+~                                                               ~|l
+|                                                               ||o
++               +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+|a
+|               |         TFC Padding * (optional, variable)    |vd
++-+-+-+-+-+-+-+-+         +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+--
+|                         |        Padding (0-255 bytes)        |
++-+-+-+-+-+-+-+-+-+-+-+-+-+     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                               |  Pad Length   | Next Header   |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|         Integrity Check Value-ICV   (variable)                |
+~                                                               ~
+|                                                               |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	\end{verbatim}
+    \caption{Struktur des IPsec Security Encapsulating Payload Headers}
+\end{figure}
+
+Die Felder SPI und Sequence Number entsprechen denen des AH (siehe oben).
+Auf diese folgen die Nutzdaten, die zuvor verschlüsselt werden. Diese enthalten neben den Headern und Payloads der höheren Protokollebenen auch das Feld, das das Protokoll des ersten Headers angibt und zudem Füllbyte-Felder (Padding), sowie ein Feld, das die Länge der Füllbytes angibt. Das Padding wird für Verschlüsselungsalgorithmen benötigt, die feste Blocklängen als Klartext erwarten. Da nur maximal 255 Füllbytes eingefügt werden dürfen, kann es sein, dass weitere Füllbytes benötigt werden, um die sogenannte “Traffic Flow Confidentiality” (TFC) zu erfüllen. Diese Füllbytes können optional zwischen Nutzdaten und eigentlichen Füllbytes eingefügt werden.
+
+Benötigt der angewandte Verschlüsselungsalgorithmus einen sogenannten “Initialisation Vector” (IV), so wird der für die aktuelle Verschlüsselung angewendete IV unverschlüsselt vor den verschlüsselten Daten, die oben aufgezählt wurden, eingeschoben.
+
+Mit der Verschlüsselung wird zum einen die Vertraulichkeit der Daten gewährleistet, da nur diejenigen, die einen entsprechenden Schlüssel besitzen, diese entschlüsseln und damit lesen können. Wenn man davon ausgeht, dass nur der korrekte Sender der Daten über den Schlüssel verfügt, mit dem der Empfänger die Nachricht erfolgreich entschlüsseln kann, so ist auch die Authentizität des Senders sichergestellt.
+Abgeschlossen wird die ESP vom ICV-Feld, dessen Prüfsumme hier lediglich über die vorherigen Felder des ESP gebildet wird. Sie stellt damit nur die Integrität der Nutzdaten sicher.
+(vgl. \cite{RFC4303})
+
+\section{Integration der Contiki IPsec-Implementierung}
+
+\subsection{Contiki und IPsec}
+Der micro IP (\textmu IP) TCP/IP-Stack des Open-Source-Betriebssystems “Contiki” wird in diesem Projekt in Teilen als Grundlage verwendet, um mit der OpenIMS-Im\-ple\-men\-tierung von Fraunhofer eine IPv6-basierte Kommunikation aufbauen zu können. Für den Stack entstand im Rahmen einer Forschungsarbeit eine grundlegende IPsec-Im\-ple\-men\-tierung, die für die Über\-tra\-gung über 6LoWPAN angedacht ist. (vgl. \cite{raza11ipsec} bzw. \cite{raza11ipsecdemo})
+
+Die Implementierung bietet eine sehr simple Umsetzung einer SAD. Diese besteht aus einer verketteten Liste von Elementen, die jeweils zu einer Sitzung die Remote-Adresse, den SPI sowie die Sequenznummer und ob AH oder ESP verwendet wird, abspeichert.
+
+Wird ein IP-Paket empfangen, das einen AH oder eine ESP enthält, so wird ein neues Listenelement mit der Quell-Adresse des Pakets erzeugt und an die SA-Liste angehängt, bzw. ein bereits vorhandenes Element, das bereits die Adresse trägt, wird mit den Werten von SPI und AH-/ESP-”Modus” des empfangenen Pakets aktualisiert.
+
+Diese Umsetzung reicht aus, da keinerlei Mechanismus zur Aushandlung von Schlüsseln und Sicherheitsparametern implementiert ist. Stattdessen werden feste Algorithmen und Schlüssel, die im Programmcode hinterlegt werden, verwendet. Ob AH oder ESP für eine Sitzung angewandt wird, hängt, wie oben gezeigt, allein vom Kommunikationsverhalten der Gegenstelle ab.
+
+\subsection{Ver\-schlüs\-se\-lungs- und Au\-then\-ti\-zi\-täts-Code-Algo\-rithmen}
+
+\subsubsection{Algorithmen des Contiki IPsec}
+
+\paragraph{AES-CTR}
+Für die Ver- und Entschlüsselung im Zuge des Aufbaus bzw. der Abarbeitung der ESP ist eine Umsetzung des “Advanced Encryption Standard” (AES)-Algorithmus, die im Counter-Blockverschlüsselungsmodus (AES-CTR) betrieben wird, integriert.
+
+In diesem Modus wird jeweils ein Block von Daten verschlüsselt, der von gleicher Länge wie der angewandte Schlüssel ist. Die Klartextdaten werden aber nicht direkt verschlüsselt, sondern stattdessen eine Kombination aus einem IV bzw. nonce mit einem Zählerwert, der nach jedem zu verschlüsselnden Block inkrementiert wird. Dieses Ergebnis wird dann per XOR-Operation Bit-weise mit dem Block von Klartextdaten verknüpft, um so den Geheimtext zu erhalten.
+(vgl. \cite{RFC3686})
+
+\paragraph{AES-XCBC-MAC-96}
+Zur Erstellung des ICVs für AH und ESP sieht die Contiki-Implementierung den “AES-XCBC-MAC-96”-Algorithmus vor. Auch hier werden Blöcke von Klartextdaten gebildet und jeweils ver\-schlüs\-selt. Beim “Cipher Block Chaining” (CBC)-Modus wird der Klartextblock erst mit dem Ergebnis der Verschlüsselung (Geheimtext) des vorherigen Blocks per XOR-Operation Bit-weise verknüpft und dann mit Hilfe des Ver\-schlüs\-se\-lungs\-al\-go\-rithmus (hier AES) verschlüsselt. Zur Verschlüsselung des ersten Blocks wird hierbei ein IV benötigt, mit dem der Block verknüpft wird.
+
+Um mit diesem Verfahren zu einem “Message Authentication Code” (MAC), d.h. zu einer cryptographischen Hash-Funktion, zu gelangen, wird beim CBC-MAC der IV mit 0 initialisiert.
+
+Da CBC-MAC nur bis zu einer bestimmten Länge der Nachricht als sicher erwiesen wurde und der Zwang, zu kurze Nachrichten mit Füllbytes verlängern zu müssen, ein unakzeptables Mehr an Rechenleistung für die Verschlüsselung bedeutet, wurde das Verfahren erweitert, so dass Nachrichten von beliebiger Länge verarbeitet werden können. Das XCBC-MAC-Verfahren leitet zunächst drei Schlüssel ab, indem jeweils ein bestimmtes Byte-Muster mit Hilfe des eigentlichen Schlüssels verschlüsselt wird. Mit dem ersten wird das Verfahren wie oben beschrieben durchgeführt. Lediglich der letzte Block wird abhängig von seiner Länge auf unterschiedliche Weise mit einer Kombination der Schlüssel verknüpft bzw. verschlüsselt.
+
+Das für AH und ESP spezifizierte ICV-Feld ist 96 Bit breit. Das Endergebnis einer Hash-Funktion, die auf einer Blockverschlüsselung basiert, ist aber genauso breit als der eingesetzte Schlüssel (in diesem Fall mind. 128 Bit). Der AES-XCBC-MAC-96-Algorithmus verwendet daher nur die 96 hochwertigsten Bits des Endergebnisses, um damit das ICV-Feld zu befüllen. (vgl. \cite{RFC3566})
+
+\subsubsection{Algorithmen des Fraunhofer OpenIMS}
+
+\paragraph{AES-CBC}
+Die OpenIMS-Im\-ple\-men\-tie\-rung von Fraunhofer erwartet allerdings andere Algorithmen für Verschlüsselung und Authentifizierung, weswegen die im Con\-ti\-ki-IPsec-Code enthaltenen Implementierungen teilweise ersetzt werden müssen.
+
+Für die Verschlüsselung wird AES im Blockverschlüsselungsmodus CBC (AES-CBC) angefordert. (Verfahren siehe oben.) Die Implementierung von AES kann hier beibehalten werden, allerdings muss das Block\-ver\-schlüs\-se\-lungs\-ver\-fah\-ren modifiziert bzw. ersetzt werden. (vgl. \cite{RFC3602})
+
+\paragraph{HMAC-MD5-96}
+Zur Authentifizierung verlangt OpenIMS das HMAC-MD5-96-Verfahren. Dies erweitert die schlüssellose cryptographische Hash-Funktion MD5 um die Anwendung eines Schlüssels und wirkt so Schwachstellen entgegen, die die Sicherheit des MD5-Algorithmus negativ beeinflussen.
+
+Das HMAC-Verfahren bringt den Schlüssel zunächst auf eine an die Hash-Funktion angepasste Länge, indem auf einen zu langen Schlüssel die Hash-Funktion angewendet wird bzw. zu kurze Schlüssel mit 0-Bytes aufgefüllt werden.
+
+Dann werden zwei Byte-Muster jeweils mit dem Schlüssel verschlüsselt, um so zwei Zeichenfolgen zu erstellen. An eine der Zeichenfolgen wird immer der Nachrichtenblock angehängt und auf das Ergebnis wird die Hash-Funktion angewendet. An die zweite Zeichenfolge wird das Ergebnis aus dem vorherigen Schritt angehängt und wiederum wird davon die Prüfsumme gebildet. Dieses Resultat stellt nun den endgültigen Authentizitäts-Code von HMAC(-MD5) dar. 
+
+Um dieses in das ICV-Feld einfügen zu können, werden auch bei HMAC-MD5-96 nur die obersten 96 Bit des Ergebnisses verwendet.
+(vgl. \cite{RFC2104})
+
+\subsection{Einfügen und Interpretation von AH und ESP}
+
+\subsubsection{\textmu IP Paketbearbeitung}
+Interpretation eines empfangenen bzw. Aufbau eines zu versendenden Pakets erfolgt im Contiki \textmu IP-Stack über eine Abarbeitungsroutine, die auf einem statischen Character-Array arbeitet.
+Hier werden entsprechend den einzelnen Protokollschichten die Header nacheinander abgearbeitet bzw. aufgebaut. 
+
+Die IPsec-Implementierung integriert in diese Routine zusätzliche Funktionalität, die bei einer empfangenen Nachricht je nach NextHeader-Feld entweder einen ESP- oder einen AH-Kopf interpretiert. Hierbei werden eventuell verschlüsselte Daten so entschlüsselt, dass der Klartext den Geheimtext im Character-Array-Buffer ersetzt. Die Prüfsumme wird erstellt und mit der übertragenen verglichen. Das Paket wird verworfen, wenn die Werte nicht übereinstimmen, indem die Abarbeitung abgebrochen wird. Zudem werden globale Zähler, die die Gesamtlänge aller Header angeben entsprechend aktualisiert.
+
+Beim Aufbau eines zu versendenden Pakets wird analog vorgegangen, wobei Informationen zu AH bzw. ESP und der SPI aus der SA-Datenbank entnommen wird.
+
+\subsubsection{Integration in Projektimplementierung}
+Diese Bearbeitungsschritte müssen auf den Projekt-Code angewendet werden. Hier erhält das \textmu IP-Active-Object empfangene und zu sendende Pakete als Daten-Events, in denen die Paket-Daten in Form eines Character-Buffers enthalten sind, und unterscheidet je nach Signal, ob das Paket interpretiert oder erstellt werden muss. Anzupassen sind die jeweiligen Bearbeitungs-Funktionen, die in den Fällen aufgerufen werden.
+
+Hier ist die Herausforderung, AH bzw. ESP für die folgenden Schichten transparent zu halten. Die aktuell vorhandenen Implementierungen gehen davon aus, dass die für sie nötigen Informationen an festen Positionen im Buffer zu finden sind, d.h. das NextHeader-Feld sowie Header und Daten des höheren Protokolls direkt im Anschluss an den IP-Header.
+
+Als Lösung wäre denkbar, die Daten bei AH-/ESP-Abarbeitung im Buffer so zu verschieben, dass die IPsec-Informationen komplett entfernt werden, nachdem diese nicht mehr benötigt werden, bzw. bei Aufbau eines Pakets wird Platz geschaffen, um den jeweiligen IPsec-Header einfügen zu können. Dies hätte so gut wie keine Änderung des Codes der anderen Schichten zur Folge, allerdings ist das Kopieren innerhalb des Buffers relativ auf\-wän\-dig und würde unnötig Rechenleistung verschwenden.
+
+Alternativ hierzu muss ähnlich der Contiki-Implementierung die Information zur aktuellen Länge der Header-Struktur nach jedem Protokoll-Schritt festgehalten und an die folgenden Ebenen weitergereicht werden. Diese können dann ihre jeweilige Informationen nicht mehr absolut im Paket-Buffer, sondern relativ zu der Header-Längen-Information suchen.

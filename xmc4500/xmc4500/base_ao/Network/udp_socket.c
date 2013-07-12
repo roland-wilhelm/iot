@@ -96,7 +96,7 @@ void udp_datagram_get_address(udp_datagram* dg, uip_ipaddr_t* t)
 	memcpy(t, &dg->address, sizeof(uip_ipaddr_t));
 }
 
-void double_echo(udp_socket* so, udp_datagram* dg)
+void simple_echo(udp_socket* so, udp_datagram* dg)
 {
 	//simple Echo
 	//but sends the reply twice
@@ -225,7 +225,7 @@ void udp_datagram_set_port(udp_datagram* dg, u16_t port)
 	dg->port = port;
 }
 
-void setup_eth_hdr(NewDataEvent* e, struct uip_eth_addr* dst, u16_t protocoll_nr)
+void setup_eth_hdr(NewDataEvent* e, const struct uip_eth_addr* dst, u16_t protocoll_nr)
 {
 	memcpy(&e->buf[0], dst, 6);
 	memcpy(&e->buf[6], &uip_ethaddr, 6);
@@ -341,9 +341,16 @@ void udp_socket_send_datagram(udp_socket* so, udp_datagram* dg)
 	
 	neighbor = uip_nd6_nbrcache_lookup(&ip_hdr->destipaddr);
 	
-	QActive_postFIFO((QActive *)neighbor, &pr_sig);
-	
-	setup_eth_hdr(e, &neighbor->lladdr, IPV6_PROTOCOLL_NR);
+	if (neighbor) 
+	{
+		QActive_postFIFO((QActive *)neighbor, &pr_sig);
+		setup_eth_hdr(e, &neighbor->lladdr, IPV6_PROTOCOLL_NR);
+	}
+	else
+	{
+		const struct uip_eth_addr broadcast = {0xff,0xff,0xff,0xff,0xff,0xff};
+		setup_eth_hdr(e, &broadcast, IPV6_PROTOCOLL_NR);
+	}
 	
 	memcpy(dataG->payload, dg->datagram.payload, dg->len);
 	
@@ -354,7 +361,7 @@ void udp_socket_send_datagram(udp_socket* so, udp_datagram* dg)
 	e->super.sig = SEND_DATA_SIG;
 	
 	QF_publish((QEvent *) e);
-	QActive_postFIFO((QActive *)neighbor, &ps_sig);
+	if (neighbor) QActive_postFIFO((QActive *)neighbor, &ps_sig);
 	//QF_gc((QEvent*) e);
 }
 
@@ -407,9 +414,9 @@ void udp_close_socket (udp_socket* socket)
 // for testing purposes
 void udp_setup_test_port(int port)
 {
-	udp_open_socket(3333, &double_echo, 0);
-	udp_open_socket(19999, &double_echo, 0);
-	udp_open_socket(9999, &double_echo, 0);
+	udp_open_socket(3333, &simple_echo, 0);
+	udp_open_socket(19999, &simple_echo, 0);
+	udp_open_socket(9999, &simple_echo, 0);
 }
 
 

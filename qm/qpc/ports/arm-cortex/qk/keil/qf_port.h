@@ -53,8 +53,8 @@ void __swi(0xFF)  enable_irq (void);
 
 //void __svc(SVC_00)  disable_irq (int i);
 //void __svc(SVC_01)  enable_irq (int i);
-void __SVC_0  (int i);
-void __SVC_1  (int i);
+//void __SVC_0  (int i);
+//void __SVC_1  (int i);
 #endif
 
 #define QF_INT_LOCK(dummy)        __SVC_0(0);    	

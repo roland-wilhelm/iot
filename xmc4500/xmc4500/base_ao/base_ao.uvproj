@@ -348,7 +348,7 @@
               <MiscControls></MiscControls>
               <Define>__ADC_IRQ  QF_TICK  QK  CORTEX</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\4500relax\drivers;..\qmbsp;..\..\..\qm\qpc\include;..\..\..\qm\qpc\ports\arm-cortex\qk\keil;..\..\..\qm\qpc\qep\source;..\..\..\qm\qpc\qf\source</IncludePath>
+              <IncludePath>..\..\4500relax\drivers;..\qmbsp;..\..\..\qm\qpc\include;..\..\..\qm\qpc\ports\arm-cortex\qk\keil;..\..\..\qm\qpc\qep\source;..\..\..\qm\qpc\qf\source;..\..\openssl-1.0.1e</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -915,14 +915,44 @@
               <FilePath>.\Network\udp_socket.c</FilePath>
             </File>
             <File>
+              <FileName>customHeap.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Network\customHeap.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>sip</GroupName>
+          <Files>
+            <File>
+              <FileName>auth.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Network\auth.c</FilePath>
+            </File>
+            <File>
+              <FileName>milenage.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Network\milenage.c</FilePath>
+            </File>
+            <File>
+              <FileName>rijndael.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Network\rijndael.c</FilePath>
+            </File>
+            <File>
               <FileName>md5.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Network\md5.c</FilePath>
             </File>
             <File>
-              <FileName>customHeap.c</FileName>
+              <FileName>sip_connector.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Network\customHeap.c</FilePath>
+              <FilePath>.\Network\sip_connector.c</FilePath>
+            </File>
+            <File>
+              <FileName>pseudo_random.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Network\pseudo_random.c</FilePath>
             </File>
           </Files>
         </Group>

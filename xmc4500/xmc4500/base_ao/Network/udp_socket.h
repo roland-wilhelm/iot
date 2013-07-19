@@ -29,7 +29,7 @@ typedef struct udp_header_tag {
 } udp_header;
 #define UDP_HEADER_SIZE (4 * sizeof(u16_t))
 
-#define DATAGRAM_PAYLOAD_SIZE 1024
+#define DATAGRAM_PAYLOAD_SIZE 1400
 typedef struct datagram_tag {
 	udp_header header;
 	char payload[DATAGRAM_PAYLOAD_SIZE];

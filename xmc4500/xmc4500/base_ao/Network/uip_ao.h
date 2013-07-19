@@ -15,7 +15,7 @@
 /// uIP buffer : The ETH header
 
 #define ETH_BUF ((struct uip_eth_hdr *)&uip_buf[0])
-#define EthernetFrameSize 1068 
+#define EthernetFrameSize 1500
 #define SIZE_OF_EVENT_QUEUE  24// 128
 
 #define ETH_HEADER_LEN 14
@@ -47,7 +47,7 @@ typedef struct BasePrintEvtTag {
 
 typedef struct NewDataEvtTag {
 	QEvent super;
-	unsigned char buf[1066+2];
+	unsigned char buf[EthernetFrameSize];
 	unsigned int len;
 } NewDataEvent;
 

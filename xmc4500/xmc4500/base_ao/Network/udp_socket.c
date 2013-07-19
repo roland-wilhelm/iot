@@ -7,6 +7,8 @@
 #include <string.h>
 #include <stdlib.h>
 #include "customHeap.h"
+#include "md5.h"
+#include "sip_connector.h"
 
 open_udp_socket_list_element *udp_socket_list = 0;
 
@@ -179,6 +181,7 @@ void reformat_ipv6_addr(uip_ip6addr_t* target, uip_ip6addr_t* source)
 
 void handle_inc_udp(NewDataEvent* e, int udp_start)
 {
+	char do_not_use[2048];
 	Neighbor_AO* neighbor;
 	u16_t port = 0;
 	u16_t length = 0;
@@ -189,6 +192,7 @@ void handle_inc_udp(NewDataEvent* e, int udp_start)
 	char dummy[UDP_DATAGRAM_SIZE];
 	udp_datagram* dg;
 	dummy[UDP_DATAGRAM_SIZE - 1] = 0;
+	do_not_use[2048 - 1] = 0;
 	
 	dg = (udp_datagram*) dummy;
 	
@@ -205,7 +209,7 @@ void handle_inc_udp(NewDataEvent* e, int udp_start)
 	
 	reformat_ipv6_addr(&addr, &ip_hdr->srcipaddr);
 	
-	neighbor = uip_nd6_nbrcache_lookup(&ip_hdr->destipaddr);
+	neighbor = uip_nd6_nbrcache_lookup(&addr);
 	
 	if (neighbor) 
 	{
@@ -420,10 +424,28 @@ void udp_close_socket (udp_socket* socket)
 	}
 }
 
+/**
+  *  Test function for the md5 hashing function.
+  */
+void udp_test_md5(udp_socket* so, udp_datagram* dg)
+{
+	MD5_CTX messageDigest;
+	udp_datagram toSend;
+	MD5_Init(&messageDigest);
+	MD5_Update(&messageDigest, &(dg->datagram.payload[0]), dg->len);
+	MD5_Final(&(toSend.datagram.payload[0]), &messageDigest);
+	toSend.len = MD5_HASH_SIZE;
+	udp_datagram_set_address(&toSend, &(dg->address));
+	udp_datagram_set_port(&toSend, dg->port);
+	udp_socket_send_datagram(so ,&toSend);
+}
+
 
 // for testing purposes
 void udp_setup_test_port(int port)
 {
+	udp_open_socket(9192, &sip_control_method, 0);
+	udp_open_socket(9191, &udp_test_md5, 0);
 	udp_open_socket(3333, &simple_echo, 0);
 	udp_open_socket(19999, &simple_echo, 0);
 	udp_open_socket(9999, &simple_echo, 0);

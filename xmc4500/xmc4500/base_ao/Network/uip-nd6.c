@@ -288,6 +288,9 @@ uip_nd6_nbrcache_lookup(uip_ip6addr_t *ipaddr)
 {
 	u8_t i;
   Neighbor_AO *neighbor = NULL;
+// 	Neighbor_AO *debugtmp = &(nd6_neighbor_cache[0]);
+// 	unsigned int debugtmpsize = sizeof(Neighbor_AO);
+// 	printf("%s %d", (char*) debugtmp, debugtmpsize);
 
   for(i = 0; i < UIP_CONF_ND6_MAX_NEIGHBORS; i ++) {
     if(nd6_neighbor_cache[i].used == 0) {

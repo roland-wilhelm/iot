@@ -23,7 +23,7 @@ udp_socket* get_open_udp_socket(u16_t port)
 	return 0;
 }
 
-void drop_udp_packet(udp_datagram* dg)
+void drop_udp_packet(udp_socket* so, udp_datagram* dg, void *)
 {
 	/*
 	Neighbor_AO* neighbor;

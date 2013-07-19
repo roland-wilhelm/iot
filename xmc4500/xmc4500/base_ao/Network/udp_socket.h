@@ -66,6 +66,8 @@ typedef struct open_udp_socket_list_element_tag {
 
 void handle_inc_udp(NewDataEvent* frame, int udpBegin);
 
+void drop_udp_packet(udp_socket* so, udp_datagram* dg, void *);
+
 //UDP Datagram Functions
 
 u16_t udp_datagram_get_payload(udp_datagram*, char*);
